@@ -364,6 +364,101 @@
             font-family: 'JetBrains Mono', monospace;
         }
 
+        /* === ABOUT === */
+        .about {
+            padding: 72px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr;
+            gap: 0;
+            border: 1px solid var(--border);
+        }
+
+        .about-divider {
+            background: var(--border);
+        }
+
+        .about-card {
+            padding: 40px 32px;
+            background: var(--bg);
+        }
+
+        .about-card h3 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            letter-spacing: -0.3px;
+        }
+
+        .about-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 12px;
+        }
+
+        .timeline {
+            margin-top: 24px;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 20px;
+            align-items: flex-start;
+        }
+
+        .timeline-year {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+            min-width: 48px;
+            padding-top: 2px;
+        }
+
+        .timeline-line {
+            width: 1px;
+            background: var(--border);
+            min-height: 100%;
+            position: relative;
+        }
+
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: -3px;
+            width: 7px;
+            height: 7px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--bg);
+            transition: background 0.4s;
+        }
+
+        .timeline-content {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        .timeline-content strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-divider {
+                height: 1px;
+            }
+        }
+
         /* === CONTACT === */
         .contact {
             padding: 72px 0;
@@ -534,6 +629,7 @@
                 EmrCore
             </div>
             <div class="nav-right">
+                <a href="#about" class="nav-link">Hakkımda</a>
                 <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj"
                     class="nav-link">Projeler</a>
                 <a href="mailto:info@emrcore.com" class="nav-link">İletişim</a>
@@ -613,6 +709,53 @@
                     <div class="tech-icon">☁️</div>
                     <div class="tech-name">Cloud</div>
                     <div class="tech-desc">infrastructure</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="tech-line"></div>
+
+        <!-- ABOUT -->
+        <section class="about" id="about">
+            <div class="section-header">
+                <div class="section-title">Hakkımızda</div>
+                <div class="section-num">about</div>
+            </div>
+            <div class="about-grid">
+                <div class="about-card">
+                    <h3>EmrCore</h3>
+                    <p>
+                        EmrCore, modern teknolojiler kullanarak işletmelerin dijital dönüşüm süreçlerine katkı sağlayan
+                        bir yazılım girişimidir. Mobil uygulama geliştirme, web tasarım ve bulut altyapı alanlarında
+                        çözümler üretiyoruz.
+                    </p>
+                    <p>
+                        Temiz kod, sade tasarım ve kullanıcı odaklı yaklaşım temel prensiplerimizdir.
+                    </p>
+                </div>
+                <div class="about-divider"></div>
+                <div class="about-card">
+                    <h3>Emir Çiftci</h3>
+                    <p>Kurucu & Geliştirici</p>
+                    <div class="timeline">
+                        <div class="timeline-item">
+                            <div class="timeline-year">2003</div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-content"><strong>Van</strong>'da doğdu</div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2020</div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-content"><strong>Mehmetçik Anadolu Lisesi</strong>'nden mezun oldu
+                            </div>
+                        </div>
+                        <div class="timeline-item">
+                            <div class="timeline-year">2025</div>
+                            <div class="timeline-line"></div>
+                            <div class="timeline-content"><strong>Marmara Üniversitesi</strong> İngilizce Bilgisayar
+                                Mühendisliği bölümünü okudu</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
