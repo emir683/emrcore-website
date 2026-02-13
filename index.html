@@ -1,13 +1,43 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="tr" data-theme="light">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EmrCore — Yazılım Çözümleri</title>
-    <meta name="description" content="EmrCore — Modern yazılım çözümleri. Mobil uygulama geliştirme, web tasarım ve dijital dönüşüm hizmetleri.">
+    <title>EmrCore — Yazılım & Teknoloji</title>
+    <meta name="description"
+        content="EmrCore — Modern yazılım çözümleri. Mobil uygulama, web geliştirme ve bulut altyapı hizmetleri.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
     <style>
+        :root {
+            --bg: #ffffff;
+            --text: #0a0a0a;
+            --text-secondary: #666666;
+            --border: #e0e0e0;
+            --border-light: #f0f0f0;
+            --accent: #0a0a0a;
+            --card-bg: #fafafa;
+            --code-bg: #f5f5f5;
+            --line-color: rgba(0, 0, 0, 0.08);
+            --dot-color: rgba(0, 0, 0, 0.06);
+        }
+
+        [data-theme="dark"] {
+            --bg: #0a0a0a;
+            --text: #f0f0f0;
+            --text-secondary: #888888;
+            --border: #222222;
+            --border-light: #181818;
+            --accent: #ffffff;
+            --card-bg: #111111;
+            --code-bg: #161616;
+            --line-color: rgba(255, 255, 255, 0.04);
+            --dot-color: rgba(255, 255, 255, 0.03);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -16,74 +46,94 @@
 
         body {
             font-family: 'Inter', -apple-system, sans-serif;
-            background: #0a0a0a;
-            color: #fff;
+            background: var(--bg);
+            color: var(--text);
             min-height: 100vh;
+            transition: background 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
         }
 
-        /* Animated gradient background */
-        .bg-gradient {
+        /* === TECH GRID BACKGROUND === */
+        .grid-bg {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            inset: 0;
             z-index: 0;
-            background: 
-                radial-gradient(ellipse 80% 50% at 20% 40%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse 60% 40% at 80% 20%, rgba(139, 92, 246, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse 50% 50% at 50% 80%, rgba(16, 185, 129, 0.08) 0%, transparent 50%);
-            animation: bgShift 15s ease-in-out infinite alternate;
+            background-image:
+                linear-gradient(var(--line-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--line-color) 1px, transparent 1px);
+            background-size: 80px 80px;
+            mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 60% at 50% 30%, black 20%, transparent 70%);
         }
 
-        @keyframes bgShift {
-            0% { opacity: 1; }
-            50% { opacity: 0.7; }
-            100% { opacity: 1; }
-        }
-
-        /* Grid pattern overlay */
-        .grid-pattern {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 60px 60px;
-        }
-
+        /* === CONTAINER === */
         .container {
             position: relative;
             z-index: 1;
-            max-width: 1100px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 0 24px;
         }
 
-        /* Navigation */
+        /* === NAV === */
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 24px 0;
+            padding: 28px 0;
+            border-bottom: 1px solid var(--border);
         }
 
         .logo {
-            font-size: 24px;
+            font-size: 20px;
             font-weight: 800;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-mark {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--text);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            font-weight: 900;
+            font-family: 'JetBrains Mono', monospace;
+            transition: border-color 0.4s;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+        }
+
+        .theme-toggle {
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            background: transparent;
+            color: var(--text);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            transition: all 0.3s;
+        }
+
+        .theme-toggle:hover {
+            border-color: var(--text);
         }
 
         .nav-link {
-            color: #888;
+            color: var(--text-secondary);
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
@@ -91,232 +141,527 @@
         }
 
         .nav-link:hover {
-            color: #fff;
+            color: var(--text);
         }
 
-        /* Hero Section */
+        /* === HERO === */
         .hero {
-            text-align: center;
-            padding: 120px 0 80px;
+            padding: 100px 0 80px;
+            position: relative;
         }
 
-        .badge {
-            display: inline-block;
-            padding: 6px 16px;
-            border-radius: 100px;
-            font-size: 13px;
-            font-weight: 500;
-            color: #8b5cf6;
-            background: rgba(139, 92, 246, 0.1);
-            border: 1px solid rgba(139, 92, 246, 0.2);
-            margin-bottom: 32px;
-            animation: fadeInUp 0.8s ease;
+        .hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 28px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .hero-label::before {
+            content: '';
+            width: 32px;
+            height: 1px;
+            background: var(--text-secondary);
         }
 
         .hero h1 {
-            font-size: clamp(40px, 7vw, 72px);
+            font-size: clamp(36px, 6vw, 64px);
             font-weight: 800;
             line-height: 1.1;
             letter-spacing: -2px;
-            margin-bottom: 24px;
-            animation: fadeInUp 0.8s ease 0.1s both;
-        }
-
-        .hero h1 .gradient-text {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6, #10b981);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            margin-bottom: 28px;
         }
 
         .hero p {
-            font-size: 18px;
-            color: #888;
-            max-width: 500px;
-            margin: 0 auto 40px;
-            line-height: 1.7;
-            animation: fadeInUp 0.8s ease 0.2s both;
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 480px;
+            line-height: 1.8;
+            margin-bottom: 44px;
         }
 
         .hero-buttons {
             display: flex;
-            gap: 16px;
-            justify-content: center;
-            animation: fadeInUp 0.8s ease 0.3s both;
+            gap: 12px;
         }
 
         .btn {
-            padding: 14px 32px;
-            border-radius: 12px;
-            font-size: 15px;
+            padding: 13px 28px;
+            border-radius: 8px;
+            font-size: 14px;
             font-weight: 600;
             text-decoration: none;
             transition: all 0.3s;
             cursor: pointer;
             border: none;
+            font-family: 'Inter', sans-serif;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #8b5cf6);
-            color: #fff;
-            box-shadow: 0 4px 24px rgba(59, 130, 246, 0.3);
+            background: var(--text);
+            color: var(--bg);
         }
 
         .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 32px rgba(59, 130, 246, 0.4);
+            opacity: 0.85;
+            transform: translateY(-1px);
         }
 
-        .btn-secondary {
-            background: rgba(255,255,255,0.05);
-            color: #ccc;
-            border: 1px solid rgba(255,255,255,0.1);
+        .btn-outline {
+            background: transparent;
+            color: var(--text);
+            border: 1px solid var(--border);
         }
 
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
+        .btn-outline:hover {
+            border-color: var(--text);
         }
 
-        /* Features */
-        .features {
-            padding: 80px 0;
+        /* === TECH DECORATION LINE === */
+        .tech-line {
+            width: 100%;
+            height: 1px;
+            background: var(--border);
+            position: relative;
+            margin: 0;
         }
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 24px;
+        .tech-line::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: -3px;
+            width: 7px;
+            height: 7px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--bg);
+            transition: background 0.4s;
         }
 
-        .feature-card {
-            padding: 32px;
-            border-radius: 20px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.06);
-            transition: all 0.4s;
+        .tech-line::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: -3px;
+            width: 7px;
+            height: 7px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            background: var(--bg);
+            transition: background 0.4s;
         }
 
-        .feature-card:hover {
-            background: rgba(255,255,255,0.06);
-            border-color: rgba(255,255,255,0.1);
-            transform: translateY(-4px);
+        /* === SERVICES === */
+        .services {
+            padding: 72px 0;
         }
 
-        .feature-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+        .section-header {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 24px;
-            margin-bottom: 20px;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 48px;
         }
 
-        .feature-card h3 {
-            font-size: 18px;
+        .section-title {
+            font-size: 13px;
+            font-family: 'JetBrains Mono', monospace;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--text-secondary);
+        }
+
+        .section-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            color: var(--border);
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .service-card {
+            padding: 36px 28px;
+            background: var(--bg);
+            transition: background 0.3s;
+            cursor: default;
+        }
+
+        .service-card:hover {
+            background: var(--card-bg);
+        }
+
+        .service-num {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 11px;
+            color: var(--border);
+            margin-bottom: 24px;
+        }
+
+        .service-card h3 {
+            font-size: 16px;
             font-weight: 700;
             margin-bottom: 12px;
+            letter-spacing: -0.3px;
         }
 
-        .feature-card p {
-            font-size: 14px;
-            color: #888;
+        .service-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
             line-height: 1.7;
         }
 
-        /* Footer */
-        footer {
-            padding: 48px 0;
+        /* === TECH SHOWCASE === */
+        .tech-showcase {
+            padding: 72px 0;
+        }
+
+        .tech-stack {
+            display: flex;
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .tech-item {
+            flex: 1;
+            padding: 32px 20px;
+            background: var(--bg);
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            margin-top: 40px;
+            transition: background 0.3s;
+        }
+
+        .tech-item:hover {
+            background: var(--card-bg);
+        }
+
+        .tech-icon {
+            font-size: 28px;
+            margin-bottom: 14px;
+        }
+
+        .tech-name {
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .tech-desc {
+            font-size: 11px;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* === CONTACT === */
+        .contact {
+            padding: 72px 0;
+            text-align: center;
+        }
+
+        .contact h2 {
+            font-size: clamp(28px, 4vw, 40px);
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+        }
+
+        .contact p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            margin-bottom: 36px;
+        }
+
+        .contact-email {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            color: var(--text);
+            text-decoration: none;
+            padding: 14px 32px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            display: inline-block;
+            transition: all 0.3s;
+        }
+
+        .contact-email:hover {
+            border-color: var(--text);
+            background: var(--card-bg);
+        }
+
+        /* === FOOTER === */
+        footer {
+            padding: 32px 0;
+            border-top: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         footer p {
-            color: #555;
-            font-size: 14px;
+            font-size: 12px;
+            color: var(--text-secondary);
+            font-family: 'JetBrains Mono', monospace;
         }
 
-        footer a {
-            color: #888;
+        .footer-links {
+            display: flex;
+            gap: 20px;
+        }
+
+        .footer-links a {
+            font-size: 12px;
+            color: var(--text-secondary);
             text-decoration: none;
+            transition: color 0.3s;
         }
 
-        footer a:hover {
-            color: #fff;
+        .footer-links a:hover {
+            color: var(--text);
         }
 
-        /* Animations */
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(24px);
-            }
+        /* === CORNER DECORATIONS === */
+        .corner-decoration {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .corner-tl {
+            top: 20px;
+            left: 20px;
+            border-top: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+        }
+
+        .corner-br {
+            bottom: 20px;
+            right: 20px;
+            border-bottom: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+        }
+
+        /* === ANIMATIONS === */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeUp 0.7s ease forwards;
+        }
+
+        .fade-in:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .fade-in:nth-child(2) {
+            animation-delay: 0.08s;
+        }
+
+        .fade-in:nth-child(3) {
+            animation-delay: 0.16s;
+        }
+
+        @keyframes fadeUp {
             to {
                 opacity: 1;
                 transform: translateY(0);
             }
         }
 
-        /* Responsive */
-        @media (max-width: 640px) {
-            .hero { padding: 80px 0 60px; }
-            .hero-buttons { flex-direction: column; align-items: center; }
-            .btn { width: 100%; text-align: center; }
+        /* === RESPONSIVE === */
+        @media (max-width: 768px) {
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tech-stack {
+                flex-direction: column;
+            }
+
+            .hero {
+                padding: 64px 0 56px;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                text-align: center;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+
+            .corner-decoration {
+                display: none;
+            }
+
+            .section-header {
+                flex-direction: column;
+                gap: 8px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="bg-gradient"></div>
-    <div class="grid-pattern"></div>
+    <div class="grid-bg"></div>
+    <div class="corner-decoration corner-tl"></div>
+    <div class="corner-decoration corner-br"></div>
 
     <div class="container">
+
+        <!-- NAV -->
         <nav>
-            <div class="logo">EmrCore</div>
-            <a href="mailto:info@emrcore.com" class="nav-link">İletişim →</a>
+            <div class="logo">
+                <div class="logo-mark">E</div>
+                EmrCore
+            </div>
+            <div class="nav-right">
+                <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj"
+                    class="nav-link">Projeler</a>
+                <a href="mailto:info@emrcore.com" class="nav-link">İletişim</a>
+                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Tema değiştir">
+                    <span id="theme-icon">☀️</span>
+                </button>
+            </div>
         </nav>
 
+        <!-- HERO -->
         <section class="hero">
-            <div class="badge">🚀 Yazılım & Teknoloji</div>
-            <h1>
-                Fikirlerinizi<br>
-                <span class="gradient-text">Dijitale Dönüştürüyoruz</span>
-            </h1>
-            <p>
-                Mobil uygulama geliştirme, web tasarım ve modern yazılım çözümleri ile projelerinizi hayata geçiriyoruz.
+            <div class="hero-label fade-in">Yazılım & Teknoloji</div>
+            <h1 class="fade-in">Temiz kod.<br>Güçlü çözümler.</h1>
+            <p class="fade-in">
+                Mobil uygulama geliştirme, web tasarım ve bulut altyapı hizmetleri ile fikirlerinizi dijital ürünlere
+                dönüştürüyoruz.
             </p>
-            <div class="hero-buttons">
+            <div class="hero-buttons fade-in">
                 <a href="mailto:info@emrcore.com" class="btn btn-primary">Bize Ulaşın</a>
-                <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj" class="btn btn-secondary">Uygulamamız →</a>
+                <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj"
+                    class="btn btn-outline">Uygulamamız →</a>
             </div>
         </section>
 
-        <section class="features">
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(59,130,246,0.1);">📱</div>
+        <div class="tech-line"></div>
+
+        <!-- SERVICES -->
+        <section class="services">
+            <div class="section-header">
+                <div class="section-title">Hizmetler</div>
+                <div class="section-num">01 — 03</div>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-num">01</div>
                     <h3>Mobil Uygulama</h3>
-                    <p>Flutter ile iOS ve Android için yüksek performanslı, modern mobil uygulamalar geliştiriyoruz.</p>
+                    <p>Flutter ile iOS ve Android için yüksek performanslı, modern uygulamalar geliştiriyoruz.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(139,92,246,0.1);">🌐</div>
+                <div class="service-card">
+                    <div class="service-num">02</div>
                     <h3>Web Geliştirme</h3>
                     <p>Hızlı, güvenli ve kullanıcı dostu web siteleri ve web uygulamaları tasarlıyoruz.</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon" style="background: rgba(16,185,129,0.1);">☁️</div>
-                    <h3>Bulut Çözümleri</h3>
-                    <p>Firebase ve bulut altyapısı ile ölçeklenebilir, güvenilir backend sistemleri kuruyoruz.</p>
+                <div class="service-card">
+                    <div class="service-num">03</div>
+                    <h3>Bulut Altyapı</h3>
+                    <p>Firebase ve bulut servisleri ile ölçeklenebilir, güvenilir backend sistemleri kuruyoruz.</p>
                 </div>
             </div>
         </section>
 
+        <div class="tech-line"></div>
+
+        <!-- TECH STACK -->
+        <section class="tech-showcase">
+            <div class="section-header">
+                <div class="section-title">Teknoloji</div>
+                <div class="section-num">stack</div>
+            </div>
+            <div class="tech-stack">
+                <div class="tech-item">
+                    <div class="tech-icon">📱</div>
+                    <div class="tech-name">Flutter</div>
+                    <div class="tech-desc">cross-platform</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">🔥</div>
+                    <div class="tech-name">Firebase</div>
+                    <div class="tech-desc">backend</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">⚡</div>
+                    <div class="tech-name">Dart</div>
+                    <div class="tech-desc">language</div>
+                </div>
+                <div class="tech-item">
+                    <div class="tech-icon">☁️</div>
+                    <div class="tech-name">Cloud</div>
+                    <div class="tech-desc">infrastructure</div>
+                </div>
+            </div>
+        </section>
+
+        <div class="tech-line"></div>
+
+        <!-- CONTACT -->
+        <section class="contact">
+            <h2>Projenizi konuşalım.</h2>
+            <p>Bir fikriniz mi var? Birlikte hayata geçirelim.</p>
+            <a href="mailto:info@emrcore.com" class="contact-email">info@emrcore.com</a>
+        </section>
+
+        <div class="tech-line"></div>
+
+        <!-- FOOTER -->
         <footer>
-            <p>&copy; 2025 EmrCore. Tüm hakları saklıdır. — <a href="mailto:info@emrcore.com">info@emrcore.com</a></p>
+            <p>© 2025 EmrCore</p>
+            <div class="footer-links">
+                <a href="https://github.com/emir683">GitHub</a>
+                <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj">Play Store</a>
+                <a href="mailto:info@emrcore.com">E-posta</a>
+            </div>
         </footer>
+
     </div>
+
+    <script>
+        function toggleTheme() {
+            const html = document.documentElement;
+            const icon = document.getElementById('theme-icon');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                icon.textContent = '🌙';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                icon.textContent = '☀️';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // Load saved theme
+        const saved = localStorage.getItem('theme');
+        if (saved === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            document.getElementById('theme-icon').textContent = '🌙';
+        }
+    </script>
 </body>
+
 </html>
-</CodeContent>
-<parameter name="Complexity">4
