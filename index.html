@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="tr" data-theme="light">
+<html lang="tr" data-theme="light" data-lang="tr">
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,22 @@
     <title>EmrCore — Yazılım & Teknoloji</title>
     <meta name="description"
         content="EmrCore — Modern yazılım çözümleri. Mobil uygulama, web geliştirme ve bulut altyapı hizmetleri.">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="EmrCore — Yazılım & Teknoloji">
+    <meta property="og:description"
+        content="Modern yazılım çözümleri. Mobil uygulama, web geliştirme ve bulut altyapı hizmetleri.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://emrcore.com">
+    <meta property="og:image" content="https://emrcore.com/og-image.png">
+    <meta property="og:locale" content="tr_TR">
+    <meta property="og:site_name" content="EmrCore">
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="EmrCore — Yazılım & Teknoloji">
+    <meta name="twitter:description"
+        content="Modern yazılım çözümleri. Mobil uygulama, web geliştirme ve bulut altyapı hizmetleri.">
+
     <link rel="icon" type="image/svg+xml"
         href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='16' fill='%230a0a0a'/><text x='50' y='68' font-family='monospace' font-size='60' font-weight='900' fill='white' text-anchor='middle'>E</text></svg>">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,6 +41,8 @@
             --code-bg: #f5f5f5;
             --line-color: rgba(0, 0, 0, 0.08);
             --dot-color: rgba(0, 0, 0, 0.06);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            --glow: rgba(0, 0, 0, 0.06);
         }
 
         [data-theme="dark"] {
@@ -38,6 +56,8 @@
             --code-bg: #161616;
             --line-color: rgba(255, 255, 255, 0.04);
             --dot-color: rgba(255, 255, 255, 0.03);
+            --nav-bg: rgba(10, 10, 10, 0.8);
+            --glow: rgba(255, 255, 255, 0.06);
         }
 
         * {
@@ -46,6 +66,11 @@
             box-sizing: border-box;
         }
 
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* === PAGE LOAD ANIMATION === */
         body {
             font-family: 'Inter', -apple-system, sans-serif;
             background: var(--bg);
@@ -53,6 +78,20 @@
             min-height: 100vh;
             transition: background 0.4s ease, color 0.4s ease;
             overflow-x: hidden;
+            opacity: 0;
+            animation: pageLoad 0.6s ease 0.1s forwards;
+        }
+
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* === TECH GRID BACKGROUND === */
@@ -77,13 +116,35 @@
             padding: 0 24px;
         }
 
-        /* === NAV === */
+        /* === STICKY NAV === */
+        .nav-wrapper {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border);
+            transition: background 0.4s, box-shadow 0.3s;
+        }
+
+        .nav-wrapper.scrolled {
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        [data-theme="dark"] .nav-wrapper.scrolled {
+            box-shadow: 0 1px 12px rgba(0, 0, 0, 0.4);
+        }
+
         nav {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 28px 0;
-            border-bottom: 1px solid var(--border);
+            padding: 18px 0;
+            max-width: 900px;
+            margin: 0 auto;
+            padding-left: 24px;
+            padding-right: 24px;
         }
 
         .logo {
@@ -112,10 +173,11 @@
         .nav-right {
             display: flex;
             align-items: center;
-            gap: 24px;
+            gap: 20px;
         }
 
-        .theme-toggle {
+        .theme-toggle,
+        .lang-toggle {
             width: 36px;
             height: 36px;
             border: 1px solid var(--border);
@@ -126,12 +188,16 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
+            font-size: 14px;
             transition: all 0.3s;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 600;
         }
 
-        .theme-toggle:hover {
+        .theme-toggle:hover,
+        .lang-toggle:hover {
             border-color: var(--text);
+            background: var(--card-bg);
         }
 
         .nav-link {
@@ -148,7 +214,7 @@
 
         /* === HERO === */
         .hero {
-            padding: 100px 0 80px;
+            padding: 80px 0 70px;
             position: relative;
         }
 
@@ -296,12 +362,14 @@
         .service-card {
             padding: 36px 28px;
             background: var(--bg);
-            transition: background 0.3s;
+            transition: all 0.4s;
             cursor: default;
+            position: relative;
         }
 
         .service-card:hover {
             background: var(--card-bg);
+            box-shadow: inset 0 0 30px var(--glow);
         }
 
         .service-num {
@@ -341,11 +409,12 @@
             padding: 32px 20px;
             background: var(--bg);
             text-align: center;
-            transition: background 0.3s;
+            transition: all 0.4s;
         }
 
         .tech-item:hover {
             background: var(--card-bg);
+            box-shadow: inset 0 0 30px var(--glow);
         }
 
         .tech-icon {
@@ -383,11 +452,12 @@
             padding: 36px 20px;
             background: var(--bg);
             text-align: center;
-            transition: background 0.3s;
+            transition: all 0.4s;
         }
 
         .stat-item:hover {
             background: var(--card-bg);
+            box-shadow: inset 0 0 30px var(--glow);
         }
 
         .stat-number {
@@ -403,12 +473,6 @@
             color: var(--text-secondary);
             text-transform: uppercase;
             letter-spacing: 2px;
-        }
-
-        @media (max-width: 768px) {
-            .stats-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
         }
 
         /* === ABOUT === */
@@ -496,16 +560,6 @@
             font-weight: 600;
         }
 
-        @media (max-width: 768px) {
-            .about-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .about-divider {
-                height: 1px;
-            }
-        }
-
         /* === CONTACT === */
         .contact {
             padding: 72px 0;
@@ -540,6 +594,7 @@
         .contact-email:hover {
             border-color: var(--text);
             background: var(--card-bg);
+            box-shadow: 0 0 20px var(--glow);
         }
 
         /* === FOOTER === */
@@ -555,22 +610,6 @@
             font-size: 12px;
             color: var(--text-secondary);
             font-family: 'JetBrains Mono', monospace;
-        }
-
-        .footer-links {
-            display: flex;
-            gap: 20px;
-        }
-
-        .footer-links a {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-links a:hover {
-            color: var(--text);
         }
 
         .social-icons {
@@ -593,6 +632,7 @@
         .social-icon:hover {
             border-color: var(--text);
             background: var(--card-bg);
+            box-shadow: 0 0 16px var(--glow);
         }
 
         .social-icon svg {
@@ -629,6 +669,18 @@
             border-right: 1px solid var(--border);
         }
 
+        /* === SCROLL REVEAL === */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         /* === ANIMATIONS === */
         .fade-in {
             opacity: 0;
@@ -637,15 +689,19 @@
         }
 
         .fade-in:nth-child(1) {
-            animation-delay: 0s;
+            animation-delay: 0.15s;
         }
 
         .fade-in:nth-child(2) {
-            animation-delay: 0.08s;
+            animation-delay: 0.25s;
         }
 
         .fade-in:nth-child(3) {
-            animation-delay: 0.16s;
+            animation-delay: 0.35s;
+        }
+
+        .fade-in:nth-child(4) {
+            animation-delay: 0.45s;
         }
 
         @keyframes fadeUp {
@@ -666,28 +722,27 @@
                 padding: 0 16px;
             }
 
-            /* Nav */
             nav {
-                padding: 16px 0;
+                padding: 14px 16px;
                 flex-wrap: wrap;
-                gap: 12px;
+                gap: 10px;
             }
 
             .nav-right {
-                gap: 12px;
+                gap: 10px;
             }
 
             .nav-link {
                 font-size: 13px;
             }
 
-            .theme-toggle {
+            .theme-toggle,
+            .lang-toggle {
                 width: 32px;
                 height: 32px;
-                font-size: 14px;
+                font-size: 13px;
             }
 
-            /* Hero */
             .hero {
                 padding: 48px 0 40px;
                 text-align: center;
@@ -718,7 +773,6 @@
                 text-align: center;
             }
 
-            /* Services */
             .services-grid {
                 grid-template-columns: 1fr;
             }
@@ -727,7 +781,6 @@
                 padding: 28px 20px;
             }
 
-            /* Tech Stack */
             .tech-stack {
                 flex-direction: column;
             }
@@ -736,7 +789,6 @@
                 padding: 24px 16px;
             }
 
-            /* Stats */
             .stats-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -749,7 +801,6 @@
                 padding: 24px 12px;
             }
 
-            /* About */
             .about-grid {
                 grid-template-columns: 1fr;
             }
@@ -762,7 +813,6 @@
                 padding: 28px 20px;
             }
 
-            /* Contact */
             .contact {
                 padding: 48px 0;
             }
@@ -771,7 +821,6 @@
                 font-size: 24px;
             }
 
-            /* Footer */
             footer {
                 flex-direction: column;
                 gap: 16px;
@@ -783,7 +832,6 @@
                 justify-content: center;
             }
 
-            /* Sections */
             .section-header {
                 flex-direction: column;
                 gap: 8px;
@@ -796,7 +844,6 @@
                 padding: 48px 0;
             }
 
-            /* Hide corner decorations */
             .corner-decoration {
                 display: none;
             }
@@ -804,11 +851,11 @@
 
         @media (max-width: 380px) {
             .nav-right {
-                gap: 8px;
+                gap: 6px;
             }
 
             .nav-link {
-                font-size: 12px;
+                font-size: 11px;
             }
 
             .logo {
@@ -827,63 +874,79 @@
     <div class="corner-decoration corner-tl"></div>
     <div class="corner-decoration corner-br"></div>
 
-    <div class="container">
-
-        <!-- NAV -->
+    <!-- STICKY NAV -->
+    <div class="nav-wrapper">
         <nav>
             <div class="logo">
                 <div class="logo-mark">E</div>
                 EmrCore
             </div>
             <div class="nav-right">
-                <a href="#about" class="nav-link">Hakkımda</a>
-                <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj"
-                    class="nav-link">Projeler</a>
-                <a href="mailto:info@emrcore.com" class="nav-link">İletişim</a>
+                <a href="#about" class="nav-link" data-tr="Hakkımda" data-en="About">Hakkımda</a>
+                <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj" class="nav-link"
+                    data-tr="Projeler" data-en="Projects">Projeler</a>
+                <a href="#contact" class="nav-link" data-tr="İletişim" data-en="Contact">İletişim</a>
+                <button class="lang-toggle" onclick="toggleLang()" aria-label="Dil değiştir">
+                    <span id="lang-icon">EN</span>
+                </button>
                 <button class="theme-toggle" onclick="toggleTheme()" aria-label="Tema değiştir">
                     <span id="theme-icon">☀️</span>
                 </button>
             </div>
         </nav>
+    </div>
+
+    <div class="container">
 
         <!-- HERO -->
         <section class="hero">
-            <div class="hero-label fade-in">Yazılım & Teknoloji</div>
-            <h1 class="fade-in">Temiz kod.<br>Güçlü çözümler.</h1>
-            <p class="fade-in">
+            <div class="hero-label fade-in" data-tr="Yazılım & Teknoloji" data-en="Software & Technology">Yazılım &
+                Teknoloji</div>
+            <h1 class="fade-in" data-tr="Temiz kod.<br>Güçlü çözümler." data-en="Clean code.<br>Powerful solutions.">
+                Temiz kod.<br>Güçlü çözümler.</h1>
+            <p class="fade-in"
+                data-tr="Mobil uygulama geliştirme, web tasarım ve bulut altyapı hizmetleri ile fikirlerinizi dijital ürünlere dönüştürüyoruz."
+                data-en="We transform your ideas into digital products with mobile app development, web design, and cloud infrastructure services.">
                 Mobil uygulama geliştirme, web tasarım ve bulut altyapı hizmetleri ile fikirlerinizi dijital ürünlere
                 dönüştürüyoruz.
             </p>
             <div class="hero-buttons fade-in">
-                <a href="mailto:info@emrcore.com" class="btn btn-primary">Bize Ulaşın</a>
+                <a href="mailto:info@emrcore.com" class="btn btn-primary" data-tr="Bize Ulaşın"
+                    data-en="Contact Us">Bize Ulaşın</a>
                 <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj"
-                    class="btn btn-outline">Uygulamamız →</a>
+                    class="btn btn-outline" data-tr="Uygulamamız →" data-en="Our App →">Uygulamamız →</a>
             </div>
         </section>
 
         <div class="tech-line"></div>
 
         <!-- SERVICES -->
-        <section class="services">
+        <section class="services reveal">
             <div class="section-header">
-                <div class="section-title">Hizmetler</div>
+                <div class="section-title" data-tr="Hizmetler" data-en="Services">Hizmetler</div>
                 <div class="section-num">01 — 03</div>
             </div>
             <div class="services-grid">
                 <div class="service-card">
                     <div class="service-num">01</div>
-                    <h3>Mobil Uygulama</h3>
-                    <p>Flutter ile iOS ve Android için yüksek performanslı, modern uygulamalar geliştiriyoruz.</p>
+                    <h3 data-tr="Mobil Uygulama" data-en="Mobile App">Mobil Uygulama</h3>
+                    <p data-tr="Flutter ile iOS ve Android için yüksek performanslı, modern uygulamalar geliştiriyoruz."
+                        data-en="We develop high-performance, modern apps for iOS and Android using Flutter.">Flutter
+                        ile iOS ve Android için yüksek performanslı, modern uygulamalar geliştiriyoruz.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-num">02</div>
-                    <h3>Web Geliştirme</h3>
-                    <p>Hızlı, güvenli ve kullanıcı dostu web siteleri ve web uygulamaları tasarlıyoruz.</p>
+                    <h3 data-tr="Web Geliştirme" data-en="Web Development">Web Geliştirme</h3>
+                    <p data-tr="Hızlı, güvenli ve kullanıcı dostu web siteleri ve web uygulamaları tasarlıyoruz."
+                        data-en="We design fast, secure, and user-friendly websites and web applications.">Hızlı,
+                        güvenli ve kullanıcı dostu web siteleri ve web uygulamaları tasarlıyoruz.</p>
                 </div>
                 <div class="service-card">
                     <div class="service-num">03</div>
-                    <h3>Bulut Altyapı</h3>
-                    <p>Firebase ve bulut servisleri ile ölçeklenebilir, güvenilir backend sistemleri kuruyoruz.</p>
+                    <h3 data-tr="Bulut Altyapı" data-en="Cloud Infrastructure">Bulut Altyapı</h3>
+                    <p data-tr="Firebase ve bulut servisleri ile ölçeklenebilir, güvenilir backend sistemleri kuruyoruz."
+                        data-en="We build scalable, reliable backend systems with Firebase and cloud services.">Firebase
+                        ve bulut servisleri ile ölçeklenebilir, güvenilir backend sistemleri kuruyoruz.</p>
                 </div>
             </div>
         </section>
@@ -891,9 +954,9 @@
         <div class="tech-line"></div>
 
         <!-- TECH STACK -->
-        <section class="tech-showcase">
+        <section class="tech-showcase reveal">
             <div class="section-header">
-                <div class="section-title">Teknoloji</div>
+                <div class="section-title" data-tr="Teknoloji" data-en="Technology">Teknoloji</div>
                 <div class="section-num">stack</div>
             </div>
             <div class="tech-stack">
@@ -923,27 +986,27 @@
         <div class="tech-line"></div>
 
         <!-- STATS -->
-        <section class="stats">
+        <section class="stats reveal">
             <div class="section-header">
-                <div class="section-title">Rakamlar</div>
+                <div class="section-title" data-tr="Rakamlar" data-en="Numbers">Rakamlar</div>
                 <div class="section-num">stats</div>
             </div>
             <div class="stats-grid">
                 <div class="stat-item">
                     <div class="stat-number" data-target="5">0</div>
-                    <div class="stat-label">Proje</div>
+                    <div class="stat-label" data-tr="Proje" data-en="Projects">Proje</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" data-target="50" data-suffix="K+">0</div>
-                    <div class="stat-label">Satır Kod</div>
+                    <div class="stat-label" data-tr="Satır Kod" data-en="Lines of Code">Satır Kod</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" data-target="3">0</div>
-                    <div class="stat-label">Teknoloji</div>
+                    <div class="stat-label" data-tr="Teknoloji" data-en="Technologies">Teknoloji</div>
                 </div>
                 <div class="stat-item">
                     <div class="stat-number" data-target="100" data-suffix="%">0</div>
-                    <div class="stat-label">Tutku</div>
+                    <div class="stat-label" data-tr="Tutku" data-en="Passion">Tutku</div>
                 </div>
             </div>
         </section>
@@ -951,44 +1014,52 @@
         <div class="tech-line"></div>
 
         <!-- ABOUT -->
-        <section class="about" id="about">
+        <section class="about reveal" id="about">
             <div class="section-header">
-                <div class="section-title">Hakkımızda</div>
+                <div class="section-title" data-tr="Hakkımızda" data-en="About Us">Hakkımızda</div>
                 <div class="section-num">about</div>
             </div>
             <div class="about-grid">
                 <div class="about-card">
                     <h3>EmrCore</h3>
-                    <p>
+                    <p data-tr="EmrCore, modern teknolojiler kullanarak işletmelerin dijital dönüşüm süreçlerine katkı sağlayan bir yazılım girişimidir. Mobil uygulama geliştirme, web tasarım ve bulut altyapı alanlarında çözümler üretiyoruz."
+                        data-en="EmrCore is a software venture that contributes to the digital transformation of businesses using modern technologies. We offer solutions in mobile app development, web design, and cloud infrastructure.">
                         EmrCore, modern teknolojiler kullanarak işletmelerin dijital dönüşüm süreçlerine katkı sağlayan
                         bir yazılım girişimidir. Mobil uygulama geliştirme, web tasarım ve bulut altyapı alanlarında
                         çözümler üretiyoruz.
                     </p>
-                    <p>
+                    <p data-tr="Temiz kod, sade tasarım ve kullanıcı odaklı yaklaşım temel prensiplerimizdir."
+                        data-en="Clean code, simple design, and a user-focused approach are our core principles.">
                         Temiz kod, sade tasarım ve kullanıcı odaklı yaklaşım temel prensiplerimizdir.
                     </p>
                 </div>
                 <div class="about-divider"></div>
                 <div class="about-card">
                     <h3>Emir Çiftci</h3>
-                    <p>Kurucu & Geliştirici</p>
+                    <p data-tr="Kurucu & Geliştirici" data-en="Founder & Developer">Kurucu & Geliştirici</p>
                     <div class="timeline">
                         <div class="timeline-item">
                             <div class="timeline-year">2003</div>
                             <div class="timeline-line"></div>
-                            <div class="timeline-content"><strong>Van</strong>'da doğdu</div>
+                            <div class="timeline-content" data-tr="<strong>Van</strong>'da doğdu"
+                                data-en="Born in <strong>Van</strong>"><strong>Van</strong>'da doğdu</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2020</div>
                             <div class="timeline-line"></div>
-                            <div class="timeline-content"><strong>Mehmetçik Anadolu Lisesi</strong>'nden mezun oldu
-                            </div>
+                            <div class="timeline-content"
+                                data-tr="<strong>Mehmetçik Anadolu Lisesi</strong>'nden mezun oldu"
+                                data-en="Graduated from <strong>Mehmetçik Anadolu Lisesi</strong>"><strong>Mehmetçik
+                                    Anadolu Lisesi</strong>'nden mezun oldu</div>
                         </div>
                         <div class="timeline-item">
                             <div class="timeline-year">2025</div>
                             <div class="timeline-line"></div>
-                            <div class="timeline-content"><strong>Marmara Üniversitesi</strong> İngilizce Bilgisayar
-                                Mühendisliği bölümünü okudu</div>
+                            <div class="timeline-content"
+                                data-tr="<strong>Marmara Üniversitesi</strong> İngilizce Bilgisayar Mühendisliği bölümünü okudu"
+                                data-en="Studied Computer Engineering (English) at <strong>Marmara University</strong>">
+                                <strong>Marmara Üniversitesi</strong> İngilizce Bilgisayar Mühendisliği bölümünü okudu
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -998,9 +1069,11 @@
         <div class="tech-line"></div>
 
         <!-- CONTACT -->
-        <section class="contact">
-            <h2>Projenizi konuşalım.</h2>
-            <p>Bir fikriniz mi var? Birlikte hayata geçirelim.</p>
+        <section class="contact reveal" id="contact">
+            <h2 data-tr="Projenizi konuşalım." data-en="Let's talk about your project.">Projenizi konuşalım.</h2>
+            <p data-tr="Bir fikriniz mi var? Birlikte hayata geçirelim."
+                data-en="Have an idea? Let's bring it to life together.">Bir fikriniz mi var? Birlikte hayata geçirelim.
+            </p>
             <a href="mailto:info@emrcore.com" class="contact-email">info@emrcore.com</a>
         </section>
 
@@ -1042,6 +1115,7 @@
     </div>
 
     <script>
+        // ===== THEME TOGGLE =====
         function toggleTheme() {
             const html = document.documentElement;
             const icon = document.getElementById('theme-icon');
@@ -1057,13 +1131,77 @@
         }
 
         // Load saved theme
-        const saved = localStorage.getItem('theme');
-        if (saved === 'dark') {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
             document.documentElement.setAttribute('data-theme', 'dark');
             document.getElementById('theme-icon').textContent = '🌙';
         }
 
-        // Animated counting
+        // ===== LANGUAGE TOGGLE =====
+        function toggleLang() {
+            const html = document.documentElement;
+            const icon = document.getElementById('lang-icon');
+            const currentLang = html.getAttribute('data-lang');
+            const newLang = currentLang === 'tr' ? 'en' : 'tr';
+
+            html.setAttribute('data-lang', newLang);
+            icon.textContent = newLang === 'tr' ? 'EN' : 'TR';
+            localStorage.setItem('lang', newLang);
+
+            // Update all translatable elements
+            document.querySelectorAll('[data-tr][data-en]').forEach(el => {
+                const text = el.getAttribute('data-' + newLang);
+                if (el.tagName === 'A' || el.tagName === 'BUTTON') {
+                    if (el.children.length === 0) el.textContent = text;
+                } else {
+                    el.innerHTML = text;
+                }
+            });
+
+            // Update page title
+            document.title = newLang === 'tr' ? 'EmrCore — Yazılım & Teknoloji' : 'EmrCore — Software & Technology';
+        }
+
+        // Load saved language
+        const savedLang = localStorage.getItem('lang');
+        if (savedLang === 'en') {
+            document.addEventListener('DOMContentLoaded', () => {
+                document.documentElement.setAttribute('data-lang', 'en');
+                document.getElementById('lang-icon').textContent = 'TR';
+                document.querySelectorAll('[data-tr][data-en]').forEach(el => {
+                    const text = el.getAttribute('data-en');
+                    if (el.tagName === 'A' || el.tagName === 'BUTTON') {
+                        if (el.children.length === 0) el.textContent = text;
+                    } else {
+                        el.innerHTML = text;
+                    }
+                });
+                document.title = 'EmrCore — Software & Technology';
+            });
+        }
+
+        // ===== STICKY NAV SCROLL EFFECT =====
+        const navWrapper = document.querySelector('.nav-wrapper');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 10) {
+                navWrapper.classList.add('scrolled');
+            } else {
+                navWrapper.classList.remove('scrolled');
+            }
+        });
+
+        // ===== SCROLL REVEAL =====
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.12 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+        // ===== ANIMATED COUNTING =====
         function animateCount(el) {
             const target = parseInt(el.getAttribute('data-target'));
             const suffix = el.getAttribute('data-suffix') || '+';
@@ -1081,18 +1219,17 @@
             requestAnimationFrame(update);
         }
 
-        // Intersection Observer for stats
-        const observer = new IntersectionObserver((entries) => {
+        const statsObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     entry.target.querySelectorAll('.stat-number').forEach(animateCount);
-                    observer.unobserve(entry.target);
+                    statsObserver.unobserve(entry.target);
                 }
             });
         }, { threshold: 0.5 });
 
-        const statsSection = document.querySelector('.stats-grid');
-        if (statsSection) observer.observe(statsSection);
+        const statsGrid = document.querySelector('.stats-grid');
+        if (statsGrid) statsObserver.observe(statsGrid);
     </script>
 </body>
 
