@@ -221,96 +221,109 @@
             transform: rotate(-45deg) translate(4.5px, -4.5px);
         }
 
-        /* === MOBILE MENU OVERLAY === */
-        /* Scroll lock when menu open */
+        /* === MOBILE MENU — Liquid Glass (Apple style) === */
+
+        /* Scroll lock */
         body.menu-open {
             overflow: hidden;
             position: fixed;
             width: 100%;
         }
 
-        /* === MOBILE MENU — Liquid Glass === */
+        /* Overlay container */
         .mobile-menu {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100vh;
+            inset: 0;
             height: 100dvh;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(60px) saturate(180%);
-            -webkit-backdrop-filter: blur(60px) saturate(180%);
             z-index: 200;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 0;
+            background: #ffffff;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: opacity 0.55s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
-        /* Animated fluid gradient overlay */
-        .mobile-menu::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(ellipse at 30% 20%,
-                    rgba(255, 255, 255, 0.18) 0%,
-                    transparent 50%),
-                radial-gradient(ellipse at 70% 80%,
-                    rgba(255, 255, 255, 0.12) 0%,
-                    transparent 50%),
-                radial-gradient(ellipse at 50% 50%,
-                    rgba(255, 255, 255, 0.06) 0%,
-                    transparent 60%);
-            animation: liquidFlow 6s ease-in-out infinite;
-            pointer-events: none;
-            z-index: -1;
+        /* Açık hali */
+        .mobile-menu.open {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 1;
+            pointer-events: auto;
         }
 
-        @keyframes liquidFlow {
+        /* CAM KATMANI */
+        .mobile-menu::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: transparent;
+            border-radius: 0;
+        }
 
-            0%,
-            100% {
-                transform: translate(0%, 0%) rotate(0deg) scale(1);
-            }
-
-            33% {
-                transform: translate(5%, -5%) rotate(3deg) scale(1.05);
-            }
-
-            66% {
-                transform: translate(-5%, 5%) rotate(-3deg) scale(0.95);
-            }
+        /* Liquid ışık akışı */
+        .mobile-menu::after {
+            content: "";
+            position: absolute;
+            inset: -60px;
+            pointer-events: none;
+            background:
+                radial-gradient(600px 380px at 25% 20%, rgba(0, 0, 0, 0.04), transparent 55%),
+                radial-gradient(520px 360px at 75% 75%, rgba(0, 0, 0, 0.03), transparent 60%),
+                radial-gradient(520px 520px at 50% 50%, rgba(0, 0, 0, 0.02), transparent 65%);
+            filter: blur(10px);
+            opacity: 0.9;
+            animation: liquidFlow 7s ease-in-out infinite;
         }
 
         [data-theme="dark"] .mobile-menu {
-            border-color: rgba(255, 255, 255, 0.08);
-            background: rgba(0, 0, 0, 0.5);
+            background: #0a0a0a;
         }
 
-        [data-theme="dark"] .mobile-menu::before {
-            background: radial-gradient(ellipse at 30% 20%,
-                    rgba(255, 255, 255, 0.06) 0%,
-                    transparent 50%),
-                radial-gradient(ellipse at 70% 80%,
-                    rgba(255, 255, 255, 0.04) 0%,
-                    transparent 50%),
-                radial-gradient(ellipse at 50% 50%,
-                    rgba(255, 255, 255, 0.02) 0%,
-                    transparent 60%);
+        [data-theme="dark"] .mobile-menu::after {
+            background:
+                radial-gradient(600px 380px at 25% 20%, rgba(255, 255, 255, 0.06), transparent 55%),
+                radial-gradient(520px 360px at 75% 75%, rgba(255, 255, 255, 0.04), transparent 60%),
+                radial-gradient(520px 520px at 50% 50%, rgba(255, 255, 255, 0.03), transparent 65%);
         }
 
-        .mobile-menu.open {
-            opacity: 1;
-            pointer-events: all;
+        /* İçerik katmanı (YAZILAR NET) */
+        .menu-content {
+            position: relative;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 22px;
+        }
+
+        /* Link/yazı netliği */
+        .mobile-menu a,
+        .mobile-menu button {
+            color: var(--text);
+            font-weight: 650;
+            letter-spacing: 0.2px;
+            font-size: 22px;
+        }
+
+        /* Glass pill items */
+        .mobile-menu .menu-item {
+            padding: 12px 18px;
+            border-radius: 14px;
+            background: transparent;
+            border: 1.5px solid var(--border);
+            text-decoration: none;
+            min-width: 220px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .mobile-menu .menu-item:hover,
+        .mobile-menu .menu-item:active {
+            background: var(--text);
+            color: var(--bg);
         }
 
         /* Close button */
@@ -320,7 +333,7 @@
             right: 16px;
             width: 44px;
             height: 44px;
-            border: 1.5px solid var(--text);
+            border: 1.5px solid var(--border);
             border-radius: 50%;
             background: transparent;
             color: var(--text);
@@ -332,52 +345,26 @@
             font-weight: 300;
             transition: all 0.3s;
             font-family: 'Inter', sans-serif;
+            z-index: 3;
         }
 
         .mobile-menu-close:hover {
             background: var(--card-bg);
         }
 
-        .mobile-menu-links {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 48px;
-        }
-
-        .mobile-menu-links a {
-            font-size: 20px;
-            font-weight: 600;
-            color: var(--text);
-            text-decoration: none;
-            padding: 14px 48px;
-            border-radius: 14px;
-            border: 1.5px solid var(--text);
-            transition: all 0.3s;
-            letter-spacing: -0.3px;
-            min-width: 220px;
-            text-align: center;
-        }
-
-        .mobile-menu-links a:hover,
-        .mobile-menu-links a:active {
-            background: var(--text);
-            color: var(--bg);
-        }
-
+        /* Action buttons */
         .mobile-menu-actions {
             display: flex;
             gap: 14px;
+            margin-top: 10px;
         }
 
         .mobile-menu-actions button {
             width: 52px;
             height: 52px;
-            border: 1.5px solid var(--text);
+            border: 1.5px solid var(--border);
             border-radius: 14px;
             background: transparent;
-            color: var(--text);
             cursor: pointer;
             display: flex;
             align-items: center;
@@ -391,6 +378,21 @@
         .mobile-menu-actions button:hover {
             background: var(--text);
             color: var(--bg);
+        }
+
+        /* Animasyon */
+        @keyframes liquidFlow {
+            0% {
+                transform: translate3d(-2%, -3%, 0) scale(1.02);
+            }
+
+            50% {
+                transform: translate3d(3%, 2%, 0) scale(1.05);
+            }
+
+            100% {
+                transform: translate3d(-2%, -3%, 0) scale(1.02);
+            }
         }
 
         .theme-toggle,
@@ -1104,19 +1106,20 @@
     <!-- MOBILE MENU -->
     <div class="mobile-menu" id="mobileMenu">
         <button class="mobile-menu-close" onclick="toggleMenu()" aria-label="Kapat">✕</button>
-        <div class="mobile-menu-links">
-            <a href="#about" onclick="toggleMenu()" data-tr="Hakkımda" data-en="About">Hakkımda</a>
-            <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj" onclick="toggleMenu()"
-                data-tr="Projeler" data-en="Projects">Projeler</a>
-            <a href="#contact" onclick="toggleMenu()" data-tr="İletişim" data-en="Contact">İletişim</a>
-        </div>
-        <div class="mobile-menu-actions">
-            <button onclick="toggleLang()" aria-label="Dil değiştir">
-                <span id="lang-icon-mobile">EN</span>
-            </button>
-            <button onclick="toggleTheme()" aria-label="Tema değiştir">
-                <span id="theme-icon-mobile">☀️</span>
-            </button>
+        <div class="menu-content">
+            <a class="menu-item" href="#about" onclick="toggleMenu()" data-tr="Hakkımda" data-en="About">Hakkımda</a>
+            <a class="menu-item" href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj"
+                onclick="toggleMenu()" data-tr="Projeler" data-en="Projects">Projeler</a>
+            <a class="menu-item" href="#contact" onclick="toggleMenu()" data-tr="İletişim"
+                data-en="Contact">İletişim</a>
+            <div class="mobile-menu-actions">
+                <button onclick="toggleLang()" aria-label="Dil değiştir">
+                    <span id="lang-icon-mobile">EN</span>
+                </button>
+                <button onclick="toggleTheme()" aria-label="Tema değiştir">
+                    <span id="theme-icon-mobile">☀️</span>
+                </button>
+            </div>
         </div>
     </div>
 
