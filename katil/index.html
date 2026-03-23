@@ -97,9 +97,12 @@
 
       function openApp() {
         const ad = encodeURIComponent(getParam("ad"));
+        const ekipId = encodeURIComponent(getParam("id") || getParam("ekipId"));
         const sifre = encodeURIComponent(getParam("sifre"));
 
-        const customScheme = `santiyeapp://katil?ad=${ad}&sifre=${sifre}`;
+        const customScheme = ekipId
+          ? `santiyeapp://katil?ad=${ad}&id=${ekipId}`
+          : `santiyeapp://katil?ad=${ad}&sifre=${sifre}`;
         const storeUrl =
           "https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj";
 
