@@ -1,7 +1,7 @@
 {
     "name": "Şantiye Puantaj Defteri",
     "short_name": "Şantiye",
-    "start_url": "/",
+    "start_url": "/app/",
     "display": "standalone",
     "background_color": "#0B1218",
     "theme_color": "#0F7C86",
