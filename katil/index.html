@@ -4,9 +4,17 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Şantiye Puantaj Defteri</title>
+    <meta
+      name="description"
+      content="Şantiye Puantaj Defteri ekip daveti ve uygulama yönlendirme sayfası."
+    />
     <style>
       :root {
         color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
       }
 
       body {
@@ -14,18 +22,19 @@
         min-height: 100vh;
         display: grid;
         place-items: center;
+        padding: 24px;
         background:
-          radial-gradient(circle at top, rgba(20, 184, 166, 0.18), transparent 40%),
+          radial-gradient(circle at top, rgba(20, 184, 166, 0.16), transparent 42%),
           linear-gradient(180deg, #05070b 0%, #0c1219 100%);
         font-family: Arial, sans-serif;
         color: #f4f7fb;
       }
 
       .card {
-        width: min(92vw, 420px);
+        width: min(100%, 440px);
         padding: 28px;
         border-radius: 24px;
-        background: rgba(9, 14, 20, 0.82);
+        background: rgba(9, 14, 20, 0.84);
         border: 1px solid rgba(255, 255, 255, 0.12);
         box-shadow: 0 24px 50px rgba(0, 0, 0, 0.28);
       }
@@ -37,19 +46,47 @@
 
       p {
         margin: 0 0 14px;
-        line-height: 1.5;
-        color: rgba(244, 247, 251, 0.78);
+        line-height: 1.55;
+        color: rgba(244, 247, 251, 0.8);
+      }
+
+      .meta {
+        margin: 18px 0 22px;
+        padding: 14px 16px;
+        border-radius: 16px;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+      }
+
+      .meta strong {
+        display: block;
+        margin-bottom: 6px;
+        color: #ffffff;
+      }
+
+      .actions {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
       }
 
       a {
         display: inline-block;
-        margin-top: 10px;
         padding: 14px 18px;
         border-radius: 14px;
-        background: #14b8a6;
-        color: #ffffff;
         text-decoration: none;
         font-weight: 700;
+      }
+
+      .primary {
+        background: #14b8a6;
+        color: #ffffff;
+      }
+
+      .secondary {
+        background: transparent;
+        color: #f4f7fb;
+        border: 1px solid rgba(255, 255, 255, 0.16);
       }
     </style>
     <script>
@@ -66,13 +103,22 @@
         const customScheme = ekipId
           ? `santiyeapp://katil?ad=${ad}&id=${ekipId}`
           : `santiyeapp://katil?ad=${ad}&sifre=${sifre}`;
+        const storeUrl =
+          "https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj";
+
+        const openButton = document.getElementById("openApp");
+        const storeButton = document.getElementById("openStore");
+        const ekipText = document.getElementById("ekipAdi");
+
+        ekipText.textContent = getParam("ad") || "Davet bilgisi";
+        openButton.href = customScheme;
+        storeButton.href = storeUrl;
 
         window.location.href = customScheme;
 
         setTimeout(() => {
-          window.location.href =
-            "https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj";
-        }, 1500);
+          window.location.href = storeUrl;
+        }, 1600);
       }
 
       window.onload = openApp;
@@ -82,9 +128,20 @@
     <div class="card">
       <h1>Şantiye Puantaj Defteri</h1>
       <p>Uygulama açılıyor. Yüklü değilse birazdan mağaza sayfasına yönlendirileceksin.</p>
-      <a href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj">
-        Uygulamayı indir
-      </a>
+      <div class="meta">
+        <strong id="ekipAdi">Ekip Daveti</strong>
+        <span>Doğrudan ekip katılım bağlantısı hazırlanıyor.</span>
+      </div>
+      <div class="actions">
+        <a id="openApp" class="primary" href="#">Uygulamayı Aç</a>
+        <a
+          id="openStore"
+          class="secondary"
+          href="https://play.google.com/store/apps/details?id=com.emircf.santiyepuantaj"
+        >
+          Uygulamayı İndir
+        </a>
+      </div>
     </div>
   </body>
 </html>
