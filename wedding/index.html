@@ -23,15 +23,15 @@
 
     <style>
         :root {
-            --yesil: #3a6b4a;
-            --yesil-ac: #5a9467;
+            --yesil:        #3a6b4a;
+            --yesil-ac:     #5a9467;
             --yesil-cok-ac: #e8f2eb;
-            --krem: #f9f5ee;
-            --krem-koyu: #ede8dc;
-            --altin: #c9a84c;
-            --altin-ac: #e8d5a0;
-            --metin: #2c2c2c;
-            --metin-ac: #6b6b6b;
+            --krem:         #f6f3ea; /* Ekru tonları */
+            --krem-koyu:    #ebe5d5; /* Koyu ekru tonları */
+            --altin:        #c9a84c;
+            --altin-ac:     #e8d5a0;
+            --metin:        #2c2c2c;
+            --metin-ac:     #6b6b6b;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -508,7 +508,27 @@
         .hero-names {
             position: relative;
             z-index: 1;
+            padding: 36px 48px;
+            border: 3px double var(--altin); /* Klasik altın çift şerit çizgi */
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.45); /* Ekru üzerinde hafif saydam cam efekti */
+            backdrop-filter: blur(4px);
+            margin: 28px auto;
+            max-width: 90%;
+            width: fit-content;
+            box-shadow: 
+                0 16px 40px rgba(58, 107, 74, 0.04),
+                inset 0 0 24px rgba(201, 168, 76, 0.15); /* İçeriden altın ışıltı */
             animation: fadeUp 0.8s ease 0.4s both;
+        }
+        .hero-names::before {
+            content: '';
+            position: absolute;
+            inset: -6px;
+            border: 1px solid var(--altin-ac);
+            border-radius: 24px;
+            opacity: 0.65;
+            pointer-events: none;
         }
         .name-groom, .name-bride {
             font-family: 'Great Vibes', cursive;
@@ -1222,7 +1242,8 @@ anılarımızı birlikte yaşamak istiyoruz.`,
 
         // ─── Yaprak animasyonu (en üstte görünür) ───
         const petalsEl = document.getElementById('petals');
-        const PETALS = ['🌸','🌺','🍃','🌿','🍀','💐','🌼','🌸','🍃','🌿'];
+        // Sadece yeşil yapraklar ve beyaz çiçekler
+        const PETALS = ['🍃', '🌿', '🌱', '🍀', '🌼', '💮', '🍃', '🌿', '🌼'];
 
         function createPetal() {
             const p = document.createElement('div');
