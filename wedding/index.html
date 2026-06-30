@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="tr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Beyza &amp; Emir — Söz Davetiyesi</title>
+    <meta name="description" content="Beyza &amp; Emir söz davetiyesi">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph (WhatsApp, Facebook vb. Sosyal Medya Önizlemeleri İçin) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://emrcore.com/wedding/">
+    <meta property="og:title" content="Beyza &amp; Emir — Söz Töreni Davetiyesi">
+    <meta property="og:description" content="Söz törenimize davetlisiniz. Detaylar, geri sayım ve konum bilgisi için tıklayın.">
+    <!-- Önemli: assets klasörüne koyacağınız preview.png / preview.jpg resmi burada gösterilir -->
+    <meta property="og:image" content="https://emrcore.com/wedding/assets/preview.png">
+    <meta property="og:image:alt" content="Beyza &amp; Emir Söz Davetiyesi">
+    <meta property="og:locale" content="tr_TR">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Inter:wght@300;400;500&family=Great+Vibes&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --yesil: #3a6b4a;
+            --yesil-ac: #5a9467;
+            --yesil-cok-ac: #e8f2eb;
+            --krem: #f9f5ee;
+            --krem-koyu: #ede8dc;
+            --altin: #c9a84c;
+            --altin-ac: #e8d5a0;
+            --metin: #2c2c2c;
+            --metin-ac: #6b6b6b;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--krem);
+            color: var(--metin);
+            overflow-x: hidden;
+        }
+
+        /* ===== ANİMASYONLAR ===== */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes heartBeat {
+            0%, 100% { transform: scale(1); }
+            50%      { transform: scale(1.15); }
+        }
+        @keyframes floatLeaf {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            33%      { transform: translateY(-12px) rotate(3deg); }
+            66%      { transform: translateY(-6px) rotate(-2deg); }
+        }
+        @keyframes petalFall {
+            0%   { transform: translateY(-20px) rotate(0deg); opacity: 0; }
+            10%  { opacity: 0.7; }
+            90%  { opacity: 0.4; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+        @keyframes goldShimmer {
+            0%   { background-position: 0% 50%; }
+            50%  { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: translateX(-50%) translateY(0); }
+            50%      { opacity: 1;   transform: translateX(-50%) translateY(-4px); }
+        }
+        @keyframes flyAway {
+            0%   { opacity: 1; transform: translate(0, 0) scale(1); }
+            100% { opacity: 0; transform: translate(var(--tx), var(--ty)) scale(0.3); }
+        }
+        @keyframes letterRise {
+            0%   { transform: translateY(100%); }
+            100% { transform: translateY(-10%); }
+        }
+
+        /* ===== YAPRAK YAĞMURU (EN ÜSTTE) ===== */
+        .petals-container {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9990;
+            overflow: hidden;
+        }
+        .petal {
+            position: absolute;
+            top: -30px;
+            animation: petalFall linear infinite;
+            opacity: 0;
+        }
+
+        /* ===== BAHAR DALLARI ===== */
+        .spring-branches {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+            overflow: hidden;
+        }
+        .spring-branches svg { position: absolute; opacity: 0.12; }
+        .branch-tl { top: -20px; left: -20px; }
+        .branch-tr { top: -20px; right: -20px; transform: scaleX(-1); }
+
+        /* ================================================================
+           ZARF OVERLAY
+        ================================================================ */
+        #envelope-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: radial-gradient(ellipse at center, #1a3a28 0%, #0d2118 60%, #060f0c 100%);
+            transition: opacity 1s ease, visibility 1s ease;
+        }
+        #envelope-overlay.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .branch-bg {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.2;
+        }
+
+        /* Zarf */
+        .envelope-scene {
+            perspective: 1200px;
+            position: relative;
+            z-index: 2;
+        }
+        .envelope-wrap {
+            position: relative;
+            width: min(360px, 90vw);
+            height: min(250px, 65vw);
+        }
+
+        /* Zarf Arka Çeperi */
+        .env-back {
+            position: absolute;
+            inset: 0;
+            background: url('./assets/envelope-bg.png') no-repeat center/cover, 
+                        url('./assets/envelope-bg.jpg') no-repeat center/cover,
+                        linear-gradient(160deg, #1b4d32 0%, #0f3020 60%, #0a2018 100%);
+            border-radius: 6px;
+            box-shadow:
+                0 40px 80px rgba(0,0,0,0.7),
+                0 0 0 1px rgba(201,168,76,0.3),
+                inset 0 1px 0 rgba(255,255,255,0.06);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        /* Zarf Ön V Cebi */
+        .env-front {
+            position: absolute;
+            inset: 0;
+            background: url('./assets/envelope-bg.png') no-repeat center/cover, 
+                        url('./assets/envelope-bg.jpg') no-repeat center/cover,
+                        linear-gradient(160deg, #16402a 0%, #0d2a1c 100%);
+            clip-path: polygon(0 35%, 50% 60%, 100% 35%, 100% 100%, 0 100%);
+            filter: brightness(0.88) contrast(1.05); /* Derinlik hissi için hafif gölge */
+            z-index: 3;
+            border-radius: 0 0 6px 6px;
+        }
+        .env-front::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1.5px solid rgba(201,168,76,0.4);
+            border-radius: 0 0 4px 4px;
+            clip-path: polygon(0 35%, 50% 60%, 100% 35%, 100% 100%, 0 100%);
+        }
+        .env-front::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(to bottom-right, rgba(201,168,76,0.1) 0%, transparent 50%),
+                linear-gradient(to bottom-left, rgba(201,168,76,0.1) 0%, transparent 50%);
+        }
+
+        /* Altın kenarlar — ÇOK KATMANLI */
+        .env-gold-border {
+            position: absolute;
+            inset: 4px;
+            border: 2px solid rgba(201,168,76,0.5);
+            border-radius: 4px;
+            pointer-events: none;
+        }
+        .env-gold-border::before {
+            content: '';
+            position: absolute;
+            inset: 4px;
+            border: 1px solid rgba(201,168,76,0.3);
+            border-radius: 3px;
+        }
+        .env-gold-border::after {
+            content: '';
+            position: absolute;
+            inset: 8px;
+            border: 1px solid rgba(201,168,76,0.15);
+            border-radius: 2px;
+        }
+        /* Köşe altın süsler */
+        .env-corner-tl, .env-corner-tr, .env-corner-bl, .env-corner-br {
+            position: absolute;
+            width: 28px; height: 28px;
+            z-index: 5;
+            pointer-events: none;
+        }
+        .env-corner-tl { top: 8px; left: 8px; border-top: 2px solid rgba(201,168,76,0.7); border-left: 2px solid rgba(201,168,76,0.7); }
+        .env-corner-tr { top: 8px; right: 8px; border-top: 2px solid rgba(201,168,76,0.7); border-right: 2px solid rgba(201,168,76,0.7); }
+        .env-corner-bl { bottom: 8px; left: 8px; border-bottom: 2px solid rgba(201,168,76,0.7); border-left: 2px solid rgba(201,168,76,0.7); }
+        .env-corner-br { bottom: 8px; right: 8px; border-bottom: 2px solid rgba(201,168,76,0.7); border-right: 2px solid rgba(201,168,76,0.7); }
+        /* Altın çizgi (ortada yatay) */
+        .env-gold-line {
+            position: absolute;
+            left: 20px; right: 20px;
+            top: 50%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.4), rgba(201,168,76,0.7), rgba(201,168,76,0.4), transparent);
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        /* Kapak (flap) */
+        .env-flap {
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 55%;
+            transform-origin: top center;
+            transform-style: preserve-3d;
+            transition: transform 0.9s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 4;
+        }
+        .env-flap-face {
+            position: absolute;
+            inset: 0;
+            background: url('./assets/envelope-flap-bg.png') no-repeat center/cover,
+                        url('./assets/envelope-flap-bg.jpg') no-repeat center/cover,
+                        linear-gradient(180deg, #1e5538 0%, #154030 50%, #0f2e22 100%);
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            backface-visibility: hidden;
+        }
+        .env-flap-face::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            background: linear-gradient(to bottom, rgba(255,255,255,0.04) 0%, transparent 40%);
+        }
+        /* Kapak altın kenarı */
+        .env-flap-face::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            clip-path: polygon(2px 2px, calc(100% - 2px) 2px, 50% calc(100% - 4px));
+            border: none;
+            background: transparent;
+            box-shadow: inset 0 0 0 1.5px rgba(201,168,76,0.35);
+        }
+        .env-flap.open {
+            transform: rotateX(-180deg);
+        }
+
+        /* Mühür */
+        .env-seal {
+            position: absolute;
+            top: 36%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 20;
+            width: 72px; height: 72px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            border-radius: 50%;
+        }
+        .env-seal:hover { transform: translate(-50%, -50%) scale(1.1); }
+        .env-seal:active { transform: translate(-50%, -50%) scale(0.95); }
+        .seal-circle {
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #8b1a1a 0%, #6b1212 40%, #4a0d0d 100%);
+            box-shadow:
+                0 6px 20px rgba(0,0,0,0.7),
+                0 0 0 2.5px rgba(201,168,76,0.6),
+                0 0 0 5px rgba(201,168,76,0.2),
+                inset 0 2px 4px rgba(255,255,255,0.12),
+                inset 0 -2px 4px rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+        /* Mühür Resmi Yüklendiğinde Arka Planı Temizle */
+        .seal-circle.has-custom-seal {
+            background: url('./assets/wax-seal.png') no-repeat center/contain !important;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
+        }
+        .seal-circle.has-custom-seal::before {
+            display: none !important;
+        }
+        .seal-circle::before {
+            content: '';
+            position: absolute;
+            inset: 7px;
+            border-radius: 50%;
+            border: 1.5px solid rgba(201,168,76,0.5);
+        }
+        .seal-monogram {
+            font-family: 'Great Vibes', cursive;
+            font-size: 24px;
+            color: rgba(201,168,76,0.95);
+            text-shadow: 0 1px 3px rgba(0,0,0,0.6);
+            line-height: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .env-seal.opened {
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            pointer-events: none;
+        }
+
+        /* İçerik kağıdı — zarftan çıkacak */
+        .env-letter {
+            position: absolute;
+            bottom: 6px; left: 14px; right: 14px;
+            height: 86%;
+            background: url('./assets/letter-bg.png') no-repeat center/cover,
+                        url('./assets/letter-bg.jpg') no-repeat center/cover,
+                        linear-gradient(180deg, #f9f5ee 0%, #f0ead8 100%);
+            border-radius: 3px 3px 0 0;
+            transform: translateY(20px); /* Zarfın içinde hafif aşağıda başlar */
+            opacity: 0; /* Başlangıçta tamamen gizli */
+            transition: transform 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.5s,
+                        opacity 0.6s ease 0.5s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 8px;
+            box-shadow: 0 -4px 16px rgba(0,0,0,0.15);
+            z-index: 2;
+        }
+        .env-letter.visible {
+            transform: translateY(-65%); /* Zarfın dışına yukarı doğru süzülür */
+            opacity: 1; /* Süzülürken görünür hale gelir */
+            z-index: 10; /* Açıldığında en üstte görünmesi için */
+        }
+        .env-letter-text {
+            font-family: 'Great Vibes', cursive;
+            font-size: 26px;
+            color: var(--yesil);
+        }
+        .env-letter-sub {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 11px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--metin-ac);
+        }
+        /* Kağıt kenar altın çizgi */
+        .env-letter::before {
+            content: '';
+            position: absolute;
+            inset: 6px;
+            border: 1px solid rgba(201,168,76,0.35);
+            border-radius: 2px;
+            pointer-events: none;
+        }
+
+        /* İpucu yazısı */
+        .open-hint {
+            position: absolute;
+            bottom: -68px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(201,168,76,0.85);
+            font-size: 13px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            white-space: nowrap;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        /* Kuş Sürüsü ve Sinematik Geçiş */
+        .bird-wrapper {
+            position: fixed;
+            pointer-events: none;
+            z-index: 10000;
+            opacity: 0;
+            top: var(--top);
+            left: 100vw;
+            will-change: transform;
+            animation: flyRightToLeft var(--duration) cubic-bezier(0.25, 0.46, 0.45, 0.94) var(--delay) forwards;
+            filter: var(--blur);
+        }
+        .bird-body {
+            display: inline-block;
+            font-size: var(--size);
+            animation: birdFlap 0.28s ease-in-out infinite alternate;
+        }
+
+        @keyframes flyRightToLeft {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0;
+            }
+            8% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-250vw, var(--offset-y)) scale(1.1);
+                opacity: 0;
+            }
+        }
+
+        @keyframes birdFlap {
+            0% { transform: scaleY(0.7) rotate(-6deg); }
+            100% { transform: scaleY(1.3) rotate(6deg) translateY(-8px); }
+        }
+
+        /* ================================================================
+           ANA SAYFA İÇERİK
+        ================================================================ */
+
+        /* HERO */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 60px 24px;
+            overflow: hidden;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(58,107,74,0.08) 0%, transparent 70%),
+                var(--krem);
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 20% 80%, rgba(58,107,74,0.06) 0%, transparent 40%),
+                radial-gradient(circle at 80% 20%, rgba(201,168,76,0.08) 0%, transparent 40%);
+            pointer-events: none;
+        }
+
+        /* Köşe süslemeleri */
+        .corner-ornament {
+            position: absolute;
+            width: 120px; height: 120px;
+            pointer-events: none;
+            opacity: 0.35;
+        }
+        .corner-ornament.tl { top: 16px; left: 16px; }
+        .corner-ornament.tr { top: 16px; right: 16px; transform: scaleX(-1); }
+        .corner-ornament.bl { bottom: 16px; left: 16px; transform: scaleY(-1); }
+        .corner-ornament.br { bottom: 16px; right: 16px; transform: scale(-1,-1); }
+
+        .hero-pre {
+            font-family: 'Inter', sans-serif;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--yesil);
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.8s ease 0.2s both;
+        }
+        .hero-names {
+            position: relative;
+            z-index: 1;
+            animation: fadeUp 0.8s ease 0.4s both;
+        }
+        .name-groom, .name-bride {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(64px, 14vw, 110px);
+            line-height: 0.95;
+            color: #1a1a1a;
+            display: block;
+        }
+        .name-ampersand {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(40px, 9vw, 70px);
+            color: var(--altin);
+            display: block;
+            line-height: 1.2;
+            animation: heartBeat 3s ease-in-out infinite;
+        }
+        .hero-invite-text {
+            position: relative;
+            z-index: 1;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(15px, 2.5vw, 18px);
+            font-style: italic;
+            color: var(--metin-ac);
+            margin-top: 28px;
+            line-height: 1.8;
+            max-width: 500px;
+            animation: fadeUp 0.8s ease 0.6s both;
+        }
+        .scroll-hint {
+            position: absolute;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--metin-ac);
+            font-size: 11px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            animation: fadeIn 1.5s ease 1.5s both;
+            z-index: 1;
+        }
+        .scroll-hint::after {
+            content: '';
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--altin), transparent);
+            animation: floatLeaf 2s ease-in-out infinite;
+        }
+
+        /* ===== BİRLEŞİK İÇERİK BÖLÜMÜ ===== */
+        .unified-section {
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* --- Mesaj + Tarih + Sayaç --- */
+        .info-block {
+            background: var(--yesil);
+            padding: 72px 24px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .info-block::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                radial-gradient(circle at 10% 90%, rgba(255,255,255,0.05) 0%, transparent 50%),
+                radial-gradient(circle at 90% 10%, rgba(255,255,255,0.07) 0%, transparent 50%);
+        }
+        /* Altın nokta desen */
+        .gold-pattern {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, rgba(201,168,76,0.06) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        /* Altın köşe süsleri */
+        .gold-corner-ornament {
+            position: absolute;
+            width: 80px; height: 80px;
+            pointer-events: none;
+            opacity: 0.55;
+        }
+        .gco-tl { top: 12px; left: 12px; }
+        .gco-tr { top: 12px; right: 12px; transform: scaleX(-1); }
+        .gco-bl { bottom: 12px; left: 12px; transform: scaleY(-1); }
+        .gco-br { bottom: 12px; right: 12px; transform: scale(-1,-1); }
+
+        .gold-divider-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            position: relative;
+            z-index: 1;
+        }
+        .gold-divider-ornament::before,
+        .gold-divider-ornament::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            max-width: 200px;
+            background: linear-gradient(to right, transparent, rgba(201,168,76,0.6), transparent);
+        }
+        .gold-divider-ornament span {
+            color: rgba(201,168,76,0.8);
+            font-size: 18px;
+        }
+
+        /* Mesaj bölümü */
+        .msg-quote {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(16px, 2.8vw, 22px);
+            font-style: italic;
+            line-height: 1.9;
+            color: rgba(255,255,255,0.9);
+            max-width: 600px;
+            margin: 0 auto 40px;
+            position: relative;
+            z-index: 1;
+        }
+        .msg-quote::before {
+            content: '"';
+            font-family: 'Great Vibes', cursive;
+            font-size: 60px;
+            color: var(--altin-ac);
+            position: absolute;
+            top: -16px;
+            left: -14px;
+            line-height: 1;
+        }
+        .msg-sign {
+            font-family: 'Great Vibes', cursive;
+            font-size: 32px;
+            color: var(--altin-ac);
+            margin-bottom: 48px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Tarih saat satırı */
+        .date-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 36px;
+            position: relative;
+            z-index: 1;
+        }
+        .date-item {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: clamp(22px, 5vw, 32px); /* Tarih ve saat boyutunu büyüttük */
+            font-weight: 500;
+            color: #fff;
+            letter-spacing: 2px;
+        }
+        .date-dot {
+            width: 8px; height: 8px; /* Araya konan noktayı da büyüttük */
+            border-radius: 50%;
+            background: var(--altin);
+        }
+
+        /* Sayaç */
+        .countdown-label {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            font-style: italic;
+            color: rgba(255,255,255,0.6);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 1;
+        }
+        .countdown-grid {
+            display: flex;
+            justify-content: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .countdown-item {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 16px;
+            padding: 20px 18px;
+            min-width: 82px;
+        }
+        .countdown-num {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 44px;
+            font-weight: 300;
+            color: #fff;
+            line-height: 1;
+            display: block;
+        }
+        .countdown-unit {
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--altin-ac);
+            margin-top: 6px;
+            display: block;
+        }
+
+        /* --- Mekan + Konum + Yol Tarifi --- */
+        .venue-block {
+            background: var(--krem);
+            padding: 72px 24px;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(42px, 8vw, 60px);
+            color: var(--yesil);
+            margin-bottom: 8px;
+        }
+        .section-subtitle {
+            text-align: center;
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 13px;
+            font-style: italic;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--metin-ac);
+            margin-bottom: 32px;
+        }
+        .venue-name {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 26px;
+            font-weight: 600;
+            color: var(--yesil);
+            margin-bottom: 8px;
+        }
+        .venue-city {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 16px;
+            color: var(--metin-ac);
+            font-style: italic;
+            margin-bottom: 32px;
+        }
+
+        /* Altın çerçeveli harita */
+        .location-gold-box {
+            max-width: 700px;
+            margin: 0 auto 32px;
+            padding: 3px;
+            border-radius: 23px;
+            background: linear-gradient(135deg,
+                #c9a84c 0%, #e8d5a0 25%, #c9a84c 50%, #e8d5a0 75%, #c9a84c 100%);
+            background-size: 300% 300%;
+            animation: goldShimmer 5s linear infinite;
+        }
+        .location-gold-box iframe {
+            display: block;
+            width: 100%;
+            height: 300px;
+            border: 0;
+            border-radius: 20px;
+        }
+
+        .btn-directions {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--yesil);
+            color: #fff;
+            padding: 14px 32px;
+            border-radius: 999px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 24px rgba(58,107,74,0.3);
+            margin-top: 8px;
+        }
+        .btn-directions:hover {
+            background: var(--yesil-ac);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 32px rgba(58,107,74,0.4);
+        }
+
+        /* ===== FOOTER ===== */
+        .wedding-footer {
+            background: var(--metin);
+            padding: 40px 24px;
+            text-align: center;
+        }
+        .wedding-footer .footer-names {
+            font-family: 'Great Vibes', cursive;
+            font-size: 44px;
+            color: var(--altin);
+            margin-bottom: 12px;
+        }
+        .wedding-footer p {
+            font-size: 13px;
+            color: rgba(255,255,255,0.4);
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+            letter-spacing: 1px;
+        }
+
+        /* ===== RIBBON ===== */
+        .ribbon {
+            background: linear-gradient(135deg, var(--yesil), var(--yesil-ac));
+            height: 6px;
+        }
+
+        /* ===== SCROLL REVEAL ===== */
+        .reveal {
+            opacity: 0;
+            transform: translateY(32px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ===== FLORAL DIVIDER ===== */
+        .floral-divider {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin: 24px 0;
+            justify-content: center;
+        }
+        .floral-divider::before,
+        .floral-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to right, transparent, var(--altin), transparent);
+            max-width: 160px;
+        }
+        .floral-icon {
+            color: var(--altin);
+            font-size: 22px;
+            animation: heartBeat 2s ease-in-out infinite;
+        }
+
+        /* ===== MOBİL ===== */
+        @media (max-width: 640px) {
+            .hero { padding: 80px 20px 80px; }
+            .corner-ornament { width: 70px; height: 70px; }
+            .countdown-item { min-width: 68px; padding: 16px 12px; }
+            .countdown-num { font-size: 34px; }
+            .info-block { padding: 56px 20px; }
+            .venue-block { padding: 56px 20px; }
+        }
+        @media (max-width: 400px) {
+            .countdown-grid { gap: 8px; }
+            .countdown-item { min-width: 58px; padding: 12px 8px; }
+            .countdown-num { font-size: 28px; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ===== ZARF GİRİŞ OVERLAY ===== -->
+    <div id="envelope-overlay">
+
+        <!-- Bahar dalları arka plan -->
+        <div class="branch-bg">
+            <svg viewBox="0 0 500 600" width="500" style="position:absolute;top:-40px;left:-60px;">
+                <path d="M50 600 C80 500 120 430 160 380 C200 330 260 310 300 260 C340 210 360 160 380 80" stroke="#c9a84c" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M160 380 C140 350 115 340 95 320" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M220 330 C200 305 185 295 165 280" stroke="#c9a84c" stroke-width="1.2" fill="none"/>
+                <path d="M300 260 C320 240 315 215 310 195" stroke="#c9a84c" stroke-width="1.2" fill="none"/>
+                <circle cx="95" cy="318" r="6" fill="rgba(255,220,230,0.7)"/><circle cx="90" cy="310" r="4" fill="rgba(255,200,215,0.6)"/>
+                <circle cx="165" cy="278" r="5" fill="rgba(255,220,230,0.7)"/><circle cx="158" cy="270" r="3.5" fill="rgba(255,200,215,0.6)"/>
+                <circle cx="310" cy="193" r="6" fill="rgba(255,220,230,0.7)"/><circle cx="318" cy="185" r="4" fill="rgba(255,200,215,0.6)"/>
+                <circle cx="375" cy="82" r="7" fill="rgba(255,220,230,0.7)"/><circle cx="385" cy="74" r="5" fill="rgba(255,200,215,0.6)"/>
+            </svg>
+            <svg viewBox="0 0 500 600" width="500" style="position:absolute;top:-40px;right:-60px;transform:scaleX(-1);">
+                <path d="M50 600 C80 500 120 430 160 380 C200 330 260 310 300 260 C340 210 360 160 380 80" stroke="#c9a84c" stroke-width="2" fill="none" stroke-linecap="round"/>
+                <path d="M160 380 C140 350 115 340 95 320" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M300 260 C320 240 315 215 310 195" stroke="#c9a84c" stroke-width="1.2" fill="none"/>
+                <circle cx="95" cy="318" r="6" fill="rgba(255,220,230,0.7)"/><circle cx="90" cy="310" r="4" fill="rgba(255,200,215,0.6)"/>
+                <circle cx="310" cy="193" r="6" fill="rgba(255,220,230,0.7)"/>
+                <circle cx="375" cy="82" r="7" fill="rgba(255,220,230,0.7)"/><circle cx="385" cy="74" r="5" fill="rgba(255,200,215,0.6)"/>
+            </svg>
+        </div>
+
+        <!-- Zarf -->
+        <div class="envelope-scene">
+            <div class="envelope-wrap" id="envelopeWrap">
+
+                <!-- Arkalık Katmanı -->
+                <div class="env-back">
+                    <div class="env-gold-border"></div>
+                    <div class="env-corner-tl"></div>
+                    <div class="env-corner-tr"></div>
+                    <div class="env-corner-bl"></div>
+                    <div class="env-corner-br"></div>
+                    <div class="env-gold-line"></div>
+                </div>
+
+                <!-- İçerik kağıdı (zarfın içinde gizli) -->
+                <div class="env-letter" id="envLetter">
+                    <span class="env-letter-text">Beyza &amp; Emir</span>
+                    <span class="env-letter-sub">Söz Davetiyesi</span>
+                </div>
+
+                <!-- Ön V Cebi Katmanı (Mektubu kapatan cep) -->
+                <div class="env-front"></div>
+
+                <!-- Kapak (flap) -->
+                <div class="env-flap" id="envFlap">
+                    <div class="env-flap-face"></div>
+                </div>
+
+                <!-- Mühür -->
+                <div class="env-seal" id="envSeal" onclick="openEnvelope()">
+                    <div class="seal-circle">
+                        <span class="seal-monogram">B&amp;E</span>
+                    </div>
+                </div>
+
+            </div>
+            <p class="open-hint">✦ Mühüre dokun ✦</p>
+        </div>
+    </div>
+
+    <!-- BAHAR DALLARI (Ana sayfa arka planı) -->
+    <div class="spring-branches">
+        <svg class="branch-tl" viewBox="0 0 400 500" width="380">
+            <path d="M10 480 C30 400 70 340 120 290 C170 240 230 210 270 160 C310 110 330 60 340 10" stroke="#3a6b4a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M120 290 C95 265 75 255 55 235" stroke="#3a6b4a" stroke-width="1.8" fill="none"/>
+            <path d="M180 240 C158 218 142 208 120 195" stroke="#3a6b4a" stroke-width="1.5" fill="none"/>
+            <path d="M270 160 C285 138 282 118 278 95" stroke="#3a6b4a" stroke-width="1.5" fill="none"/>
+            <circle cx="54" cy="233" r="8" fill="rgba(255,182,193,0.55)"/><circle cx="47" cy="225" r="5.5" fill="rgba(255,160,180,0.45)"/>
+            <circle cx="119" cy="193" r="7" fill="rgba(255,182,193,0.55)"/><circle cx="112" cy="186" r="5" fill="rgba(255,160,180,0.45)"/>
+            <circle cx="277" cy="93" r="8" fill="rgba(255,182,193,0.55)"/><circle cx="284" cy="85" r="5.5" fill="rgba(255,160,180,0.45)"/>
+            <circle cx="337" cy="12" r="9" fill="rgba(255,182,193,0.55)"/><circle cx="344" cy="5" r="6" fill="rgba(255,160,180,0.45)"/>
+        </svg>
+        <svg class="branch-tr" viewBox="0 0 400 500" width="380">
+            <path d="M10 480 C30 400 70 340 120 290 C170 240 230 210 270 160 C310 110 330 60 340 10" stroke="#3a6b4a" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <path d="M120 290 C95 265 75 255 55 235" stroke="#3a6b4a" stroke-width="1.8" fill="none"/>
+            <path d="M270 160 C285 138 282 118 278 95" stroke="#3a6b4a" stroke-width="1.5" fill="none"/>
+            <circle cx="54" cy="233" r="8" fill="rgba(255,182,193,0.55)"/><circle cx="47" cy="225" r="5.5" fill="rgba(255,160,180,0.45)"/>
+            <circle cx="277" cy="93" r="8" fill="rgba(255,182,193,0.55)"/><circle cx="284" cy="85" r="5.5" fill="rgba(255,160,180,0.45)"/>
+            <circle cx="337" cy="12" r="9" fill="rgba(255,182,193,0.55)"/><circle cx="344" cy="5" r="6" fill="rgba(255,160,180,0.45)"/>
+        </svg>
+    </div>
+
+    <!-- YAPRAK YAĞMURU (en üstte) -->
+    <div class="petals-container" id="petals"></div>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="hero">
+        <svg class="corner-ornament tl" viewBox="0 0 120 120" fill="none">
+            <path d="M10 10 Q60 10 60 60" stroke="#3a6b4a" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+            <path d="M10 10 Q10 60 60 60" stroke="#c9a84c" stroke-width="1" fill="none" stroke-dasharray="2 4"/>
+            <circle cx="10" cy="10" r="4" fill="#c9a84c"/><circle cx="60" cy="60" r="2.5" fill="#3a6b4a"/>
+        </svg>
+        <svg class="corner-ornament tr" viewBox="0 0 120 120" fill="none">
+            <path d="M10 10 Q60 10 60 60" stroke="#3a6b4a" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+            <path d="M10 10 Q10 60 60 60" stroke="#c9a84c" stroke-width="1" fill="none" stroke-dasharray="2 4"/>
+            <circle cx="10" cy="10" r="4" fill="#c9a84c"/><circle cx="60" cy="60" r="2.5" fill="#3a6b4a"/>
+        </svg>
+        <svg class="corner-ornament bl" viewBox="0 0 120 120" fill="none">
+            <path d="M10 10 Q60 10 60 60" stroke="#3a6b4a" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+            <path d="M10 10 Q10 60 60 60" stroke="#c9a84c" stroke-width="1" fill="none" stroke-dasharray="2 4"/>
+            <circle cx="10" cy="10" r="4" fill="#c9a84c"/>
+        </svg>
+        <svg class="corner-ornament br" viewBox="0 0 120 120" fill="none">
+            <path d="M10 10 Q60 10 60 60" stroke="#3a6b4a" stroke-width="1.5" fill="none" stroke-dasharray="4 3"/>
+            <path d="M10 10 Q10 60 60 60" stroke="#c9a84c" stroke-width="1" fill="none" stroke-dasharray="2 4"/>
+            <circle cx="10" cy="10" r="4" fill="#c9a84c"/>
+        </svg>
+
+        <p class="hero-pre">Sizi mutlu günümüzde aramızda görmekten onur duyarız</p>
+
+        <div class="hero-names">
+            <span class="name-groom" id="nameGroom">Beyza</span>
+            <span class="name-ampersand">&amp;</span>
+            <span class="name-bride" id="nameBride">Emir</span>
+        </div>
+
+        <p class="hero-invite-text" id="weddingMessage">
+            Evlilik yolculuğumuza başladığımız bu özel günde<br>
+            sevginizi ve dualarınızı bizimle paylaşmanızı dileriz.
+        </p>
+
+        <div class="scroll-hint">Kaydır</div>
+    </section>
+
+    <div class="ribbon"></div>
+
+    <!-- ===== BİRLEŞİK İÇERİK ===== -->
+    <div class="unified-section">
+
+        <!-- MESAJ + TARİH + SAYAÇ -->
+        <div class="info-block reveal">
+            <div class="gold-pattern"></div>
+
+            <!-- Altın köşe süsleri -->
+            <svg class="gold-corner-ornament gco-tl" viewBox="0 0 80 80" fill="none">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+                <circle cx="45" cy="15" r="2" fill="rgba(201,168,76,0.6)"/>
+                <circle cx="15" cy="45" r="2" fill="rgba(201,168,76,0.6)"/>
+                <path d="M18 18 L28 18 L28 28" stroke="rgba(201,168,76,0.4)" stroke-width="1" fill="none"/>
+            </svg>
+            <svg class="gold-corner-ornament gco-tr" viewBox="0 0 80 80" fill="none">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/><circle cx="45" cy="15" r="2" fill="rgba(201,168,76,0.6)"/>
+            </svg>
+            <svg class="gold-corner-ornament gco-bl" viewBox="0 0 80 80" fill="none">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            </svg>
+            <svg class="gold-corner-ornament gco-br" viewBox="0 0 80 80" fill="none">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            </svg>
+
+            <div class="gold-divider-ornament"><span>✦</span></div>
+
+            <div class="floral-divider" style="margin-bottom:32px;"><span class="floral-icon" style="color:rgba(255,255,255,0.5);">♡</span></div>
+
+            <!-- Tarih & Saat -->
+            <div class="date-row">
+                <span class="date-item" id="detailDate">18 Temmuz 2026</span>
+                <span class="date-dot"></span>
+                <span class="date-item" id="detailTime">Saat 18:30</span>
+            </div>
+
+            <!-- Sayaç -->
+            <p class="countdown-label">Söze kalan süre</p>
+            <div class="countdown-grid">
+                <div class="countdown-item">
+                    <span class="countdown-num" id="cd-days">--</span>
+                    <span class="countdown-unit">Gün</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-num" id="cd-hours">--</span>
+                    <span class="countdown-unit">Saat</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-num" id="cd-mins">--</span>
+                    <span class="countdown-unit">Dakika</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-num" id="cd-secs">--</span>
+                    <span class="countdown-unit">Saniye</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="ribbon"></div>
+
+        <!-- MEKAN + KONUM + YOL TARİFİ -->
+        <div class="venue-block reveal" style="position:relative;">
+
+            <!-- Altın köşe süsleri -->
+            <svg class="gold-corner-ornament gco-tl" viewBox="0 0 80 80" fill="none" style="opacity:0.4;">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            </svg>
+            <svg class="gold-corner-ornament gco-tr" viewBox="0 0 80 80" fill="none" style="opacity:0.4;">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            </svg>
+            <svg class="gold-corner-ornament gco-bl" viewBox="0 0 80 80" fill="none" style="opacity:0.4;">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            </svg>
+            <svg class="gold-corner-ornament gco-br" viewBox="0 0 80 80" fill="none" style="opacity:0.4;">
+                <path d="M5 5 L5 35 Q5 45 15 45" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <path d="M5 5 L35 5 Q45 5 45 15" stroke="#c9a84c" stroke-width="1.5" fill="none"/>
+                <circle cx="5" cy="5" r="3" fill="#c9a84c"/>
+            </svg>
+
+            <h2 class="section-title">Konum</h2>
+            <p class="section-subtitle">Buluşma Noktamız</p>
+
+            <p class="venue-name" id="venueName">Beykoz Karali Çiftliği</p>
+            <p class="venue-city" id="venueCity">İstanbul</p>
+
+            <div class="gold-divider-ornament"><span>❧</span></div>
+
+            <!-- Altın çerçeveli harita -->
+            <div class="location-gold-box">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1503.0!2d29.1308!3d41.1503!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zBeykoz+Karali+%C3%87iftli%C4%9Fi!5e0!3m2!1str!2str!4v1!5m2!1str!2str"
+                    width="100%" height="300" style="border:0;display:block;"
+                    allowfullscreen="" loading="lazy"
+                    referrerpolicy="no-referrer-when-downgrade"
+                    title="Beykoz Karali Çiftliği konumu">
+                </iframe>
+            </div>
+
+            <a class="btn-directions" id="directionsLink" href="https://maps.app.goo.gl/U1BJ6gAnf9P7KBCf7" target="_blank" rel="noopener">
+                🧭 &nbsp; Yol Tarifi Al
+            </a>
+        </div>
+
+    </div>
+
+    <div class="ribbon"></div>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="wedding-footer">
+        <p class="footer-names" id="footerNames">Emir & Beyza</p>
+        <p id="footerDate">18 Temmuz 2026 · İstanbul</p>
+        <br>
+        <p style="margin-top:16px; font-size:11px; opacity:0.3; letter-spacing:2px;">
+            Made with ♡ by EmrCore
+        </p>
+    </footer>
+
+    <script>
+        /* ================================================================
+           🎨 TÜM ÖZELLEŞTİRMELER BURADA — Sadece bu bloğu düzenle!
+        ================================================================ */
+        const CONFIG = {
+            groomName: "Beyza",
+            brideName: "Emir",
+
+            // Söz tarihi — new Date(YIL, AY-1, GÜN, SAAT, DAKİKA)
+            // Ay 1 eksik: Ocak=0 … Temmuz=6
+            weddingDate: new Date(2026, 6, 18, 18, 30),
+
+            dateText:  "18 Temmuz 2026",
+            timeText:  "18:30",
+
+            venueName: "Beykoz Karali Çiftliği",
+            city:      "İstanbul",
+
+            mapsLink: "https://maps.app.goo.gl/U1BJ6gAnf9P7KBCf7",
+
+            message: `Sevginin ve umudun bir arada var olduğu bu güzel yolculukta,
+sizi yanımızda görmek bize güç verecek. Sevinçlerimizi paylaşmak,
+anılarımızı birlikte yaşamak istiyoruz.`,
+
+            whatsappNumber: "905550000000",
+        };
+        /* ================================================================ */
+
+
+        // ─── Verileri sayfaya uygula ───
+        function applyConfig() {
+            const c = CONFIG;
+            document.getElementById('nameGroom').textContent   = c.groomName;
+            document.getElementById('nameBride').textContent   = c.brideName;
+            document.getElementById('footerNames').textContent = `${c.groomName} & ${c.brideName}`;
+
+            document.getElementById('detailDate').textContent  = c.dateText;
+            document.getElementById('detailTime').textContent  = `Saat ${c.timeText}`;
+            document.getElementById('footerDate').textContent  = `${c.dateText} · ${c.city}`;
+
+            document.getElementById('venueName').textContent   = c.venueName;
+            document.getElementById('venueCity').textContent   = c.city;
+
+            document.getElementById('directionsLink').href     = c.mapsLink;
+
+            document.getElementById('weddingMessage').innerHTML =
+                c.message.replace(/\n/g, '<br>');
+
+            document.title = `${c.groomName} & ${c.brideName} — Söz Davetiyesi`;
+        }
+
+
+        // ─── Geri sayım ───
+        function updateCountdown() {
+            const now  = new Date();
+            const diff = CONFIG.weddingDate - now;
+
+            if (diff <= 0) {
+                ['cd-days','cd-hours','cd-mins','cd-secs']
+                    .forEach(id => document.getElementById(id).textContent = '00');
+                return;
+            }
+
+            const days  = Math.floor(diff / 86400000);
+            const hours = Math.floor((diff % 86400000) / 3600000);
+            const mins  = Math.floor((diff % 3600000) / 60000);
+            const secs  = Math.floor((diff % 60000) / 1000);
+
+            document.getElementById('cd-days').textContent  = String(days).padStart(2,'0');
+            document.getElementById('cd-hours').textContent = String(hours).padStart(2,'0');
+            document.getElementById('cd-mins').textContent  = String(mins).padStart(2,'0');
+            document.getElementById('cd-secs').textContent  = String(secs).padStart(2,'0');
+        }
+
+
+        // ─── Yaprak animasyonu (en üstte görünür) ───
+        const petalsEl = document.getElementById('petals');
+        const PETALS = ['🌸','🌺','🍃','🌿','🍀','💐','🌼','🌸','🍃','🌿'];
+
+        function createPetal() {
+            const p = document.createElement('div');
+            p.className = 'petal';
+            p.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
+            p.style.left           = Math.random() * 105 + 'vw';
+            p.style.fontSize       = (12 + Math.random() * 18) + 'px';
+            const dur              = 7 + Math.random() * 9;
+            p.style.animationDuration = dur + 's';
+            p.style.animationDelay    = (Math.random() * 2) + 's';
+            p.style.opacity        = 0;
+            petalsEl.appendChild(p);
+            setTimeout(() => p.remove(), (dur + 3) * 1000);
+        }
+
+        for (let i = 0; i < 28; i++) {
+            setTimeout(createPetal, i * 120);
+        }
+        setInterval(createPetal, 400);
+
+
+        // ─── Scroll Reveal ───
+        const revealObs = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    revealObs.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+
+        // ─── Başlat ───
+        applyConfig();
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
+
+
+        // ================================================================
+        //  SİNEMATİK GEÇİŞ: SAĞDAN SOLA GÜVERCİN SÜRÜSÜ
+        // ================================================================
+
+        function spawnBirdFlock() {
+            const overlay = document.getElementById('envelope-overlay');
+            
+            // Toplam kuş sayısı
+            const totalBirds = 22;
+
+            for (let i = 0; i < totalBirds; i++) {
+                const wrapper = document.createElement('div');
+                wrapper.className = 'bird-wrapper';
+
+                const bird = document.createElement('span');
+                bird.className = 'bird-body';
+                bird.textContent = '🕊️';
+
+                let size, duration, delay, top, offsetY, blur;
+
+                // Geçişi sağlayacak kameraya EN yakın 3 devasa kuş (SÜZÜLEREK YAVAŞ GEÇİŞ)
+                if (i < 3) {
+                    size = (65 + Math.random() * 20) + 'vw';
+                    duration = '2.5s'; // Daha yavaş ve ağır uçuş (eskisi 1.3s idi)
+                    delay = (0.1 + i * 0.25) + 's';
+                    top = (8 + i * 32) + 'vh';
+                    offsetY = '-8vh';
+                    blur = 'blur(6px)';
+                } 
+                // Orta boy standart sürü kuşları
+                else if (i < 12) {
+                    size = (40 + Math.random() * 40) + 'px';
+                    duration = (3.5 + Math.random() * 1.0) + 's'; // Süzülme hızı (eskisi 1.6s idi)
+                    delay = (Math.random() * 0.8) + 's';
+                    top = (15 + Math.random() * 70) + 'vh';
+                    offsetY = (Math.random() * -120 - 60) + 'px';
+                    blur = 'none';
+                } 
+                // En arkada uçan küçük, uzak kuşlar
+                else {
+                    size = (18 + Math.random() * 12) + 'px';
+                    duration = (4.8 + Math.random() * 1.5) + 's'; // Arka plan süzülmesi
+                    delay = (Math.random() * 1.2) + 's';
+                    top = (5 + Math.random() * 85) + 'vh';
+                    offsetY = (Math.random() * -60 - 30) + 'px';
+                    blur = 'blur(1px)';
+                }
+
+                wrapper.style.setProperty('--duration', duration);
+                wrapper.style.setProperty('--delay', delay);
+                wrapper.style.setProperty('--top', top);
+                wrapper.style.setProperty('--offset-y', offsetY);
+                wrapper.style.setProperty('--blur', blur);
+                bird.style.setProperty('--size', size);
+
+                wrapper.appendChild(bird);
+                overlay.appendChild(wrapper);
+            }
+        }
+
+        function openEnvelope() {
+            const flap    = document.getElementById('envFlap');
+            const seal    = document.getElementById('envSeal');
+            const letter  = document.getElementById('envLetter');
+            const overlay = document.getElementById('envelope-overlay');
+
+            // 1. Mühürü gizle
+            seal.classList.add('opened');
+
+            // 2. Kapağı aç (biraz gecikmeli)
+            setTimeout(() => { flap.classList.add('open'); }, 200);
+
+            // 3. Kağıdı zarftan yukarı çıkar (kapak tamamen açılınca)
+            setTimeout(() => { letter.classList.add('visible'); }, 1100);
+
+            // 4. Kuşları daha geç ve yavaşça uçur (mektup tamamen okunduktan sonra)
+            setTimeout(() => { spawnBirdFlock(); }, 2300);
+
+            // 5. Yavaş geçen dev kuşlar ekranı kapladığı an overlay'i kapat
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+                document.body.style.overflow = '';
+            }, 3700);
+        }
+
+        // Scroll'u kilitle
+        document.body.style.overflow = 'hidden';
+
+        // Eğer wax-seal.png mühür resmi yüklendiyse, üstündeki B&E yazısını gizle
+        const sealImageChecker = new Image();
+        sealImageChecker.src = './assets/wax-seal.png';
+        sealImageChecker.onload = function() {
+            const monogram = document.querySelector('.seal-monogram');
+            if (monogram) monogram.style.display = 'none';
+            const sealCircle = document.querySelector('.seal-circle');
+            if (sealCircle) sealCircle.classList.add('has-custom-seal');
+        };
+    </script>
+
+</body>
+</html>
