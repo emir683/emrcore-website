@@ -1023,6 +1023,31 @@
             <span class="name-groom" id="nameGroom">Beyza</span>
             <span class="name-ampersand">&amp;</span>
             <span class="name-bride" id="nameBride">Emir</span>
+            
+            <!-- 💍 Yüzükler Alanı -->
+            <div class="rings-wrapper" style="margin-top: 18px; text-align: center; display: flex; justify-content: center;">
+                <!-- Eğer assets klasörüne wedding-rings.png veya wedding-rings.webp atarsanız, çizim yerine o gösterilir -->
+                <img id="customRings" src="./assets/wedding-rings.webp" alt="Yüzükler" style="display: none; max-width: 54px; height: auto;" onerror="this.src='./assets/wedding-rings.png'; this.onerror=null;" onload="document.getElementById('svgRings').style.display='none'; this.style.display='block';">
+                
+                <!-- Kusursuz Vektörel Altın Yüzük Çizimi (Varsayılan) -->
+                <div id="svgRings" style="display: block;">
+                    <svg width="54" height="36" viewBox="0 0 100 70" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Sol Yüzük -->
+                        <circle cx="36" cy="35" r="23" stroke="url(#goldGradientRings)" stroke-width="5" filter="drop-shadow(0px 2px 4px rgba(0,0,0,0.12))" />
+                        <!-- Sağ Yüzük (İç içe geçmiş) -->
+                        <circle cx="64" cy="35" r="23" stroke="url(#goldGradientRings)" stroke-width="5" filter="drop-shadow(0px 2px 4px rgba(0,0,0,0.12))" />
+                        <!-- Kenetlenme İllüzyonu -->
+                        <path d="M 48 13.5 A 23 23 0 0 1 59 35" stroke="url(#goldGradientRings)" stroke-width="5" stroke-linecap="round" />
+                        <defs>
+                            <linearGradient id="goldGradientRings" x1="13" y1="10" x2="87" y2="60" gradientUnits="userSpaceOnUse">
+                                <stop offset="0%" stop-color="#e8d5a0" />
+                                <stop offset="50%" stop-color="#c9a84c" />
+                                <stop offset="100%" stop-color="#9a7a2c" />
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+            </div>
         </div>
 
         <p class="hero-invite-text" id="weddingMessage">
