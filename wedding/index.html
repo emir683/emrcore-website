@@ -954,7 +954,21 @@
 
                 <!-- Kapak (flap) -->
                 <div class="env-flap" id="envFlap">
-                    <div class="env-flap-face"></div>
+                    <div class="env-flap-face">
+                        <!-- Zarf kapağının ucunu ve kenarlarını belirginleştiren altın yaldız SVG çizgi -->
+                        <svg width="100%" height="100%" viewBox="0 0 100 100" preserveAspectRatio="none" style="position: absolute; inset: 0; pointer-events: none; z-index: 5;">
+                            <path d="M 0 0 L 50 100 L 100 0" stroke="url(#goldGradientFlap)" stroke-width="1.8" fill="none" />
+                            <defs>
+                                <linearGradient id="goldGradientFlap" x1="0" y1="0" x2="100" y2="0" gradientUnits="userSpaceOnUse">
+                                    <stop offset="0%" stop-color="#c9a84c" />
+                                    <stop offset="35%" stop-color="#e8d5a0" />
+                                    <stop offset="50%" stop-color="#fff6d5" />
+                                    <stop offset="65%" stop-color="#e8d5a0" />
+                                    <stop offset="100%" stop-color="#9a7a2c" />
+                                </linearGradient>
+                            </defs>
+                        </svg>
+                    </div>
                 </div>
 
                 <!-- Mühür -->
