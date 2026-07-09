@@ -18,10 +18,8 @@
     <meta property="og:image:alt" content="Beyza &amp; Emir Söz Davetiyesi">
     <meta property="og:locale" content="tr_TR">
 
-    <!-- Görsellerin anında açılması ve yeşil sıçramayı (flicker) önlemek için ön yükleme (Preload) -->
+    <!-- Görsellerin anında açılması için ön yükleme (Preload) -->
     <link rel="preload" as="image" href="assets/envelope-screen-bg.webp?v=1.2">
-    <link rel="preload" as="image" href="assets/envelope-bg.webp?v=1.2">
-    <link rel="preload" as="image" href="assets/envelope-flap-bg.webp?v=1.2">
     <link rel="preload" as="image" href="assets/wax-seal.webp?v=1.2">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -89,6 +87,32 @@
         @keyframes letterRise {
             0%   { transform: translateY(100%); }
             100% { transform: translateY(-10%); }
+        }
+        /* Harf harf çıkış animasyonu */
+        @keyframes letterReveal {
+            0%   { opacity: 0; transform: translateY(22px) scale(0.85); }
+            100% { opacity: 1; transform: translateY(0)   scale(1); }
+        }
+        /* Aşağı zıplayan ok animasyonu */
+        @keyframes bounceDown {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50%       { transform: translateY(8px); opacity: 1; }
+        }
+        /* Mühür üzerinde dönen ışıltı halkası */
+        @keyframes sealShimmer {
+            0%   { transform: translate(-50%,-50%) rotate(0deg) scale(1.1); }
+            100% { transform: translate(-50%,-50%) rotate(360deg) scale(1.1); }
+        }
+        /* Mühür tıklama dalgası */
+        @keyframes sealRipple {
+            0%   { width: 72px; height: 72px; opacity: 0.7; }
+            100% { width: 160px; height: 160px; opacity: 0; }
+        }
+        /* Footer süs çizgisi shimmer */
+        @keyframes footerLineShimmer {
+            0%   { opacity: 0.2; }
+            50%  { opacity: 0.8; }
+            100% { opacity: 0.2; }
         }
 
         /* ===== YAPRAK YAĞMURU (EN ÜSTTE) ===== */
@@ -288,7 +312,38 @@
             transition: transform 0.3s ease;
             border-radius: 50%;
         }
-        .env-seal:hover { transform: translate(-50%, -50%) scale(1.1); }
+        /* Tıklama dalgası (ripple) */
+        .env-seal::before {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            border: 2px solid rgba(201,168,76,0.5);
+            pointer-events: none;
+            opacity: 0;
+        }
+        .env-seal:hover::before {
+            animation: sealRipple 1.2s ease-out infinite;
+        }
+        /* Hover'da dönen altın ışıltı halkası */
+        .env-seal::after {
+            content: '';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%,-50%);
+            width: 90px; height: 90px;
+            border-radius: 50%;
+            border: 1.5px dashed rgba(201,168,76,0);
+            transition: border-color 0.3s ease;
+            pointer-events: none;
+        }
+        .env-seal:hover::after {
+            border-color: rgba(201,168,76,0.55);
+            animation: sealShimmer 2.4s linear infinite;
+        }
+        .env-seal:hover { transform: translate(-50%, -50%) scale(1.08); }
         .env-seal:active { transform: translate(-50%, -50%) scale(0.95); }
         .seal-circle {
             width: 72px; height: 72px;
@@ -498,18 +553,18 @@
         .hero-names {
             position: relative;
             z-index: 1;
-            padding: 36px 48px;
-            border: 3px double var(--altin); /* Klasik altın çift şerit çizgi */
+            padding: clamp(18px, 4vw, 36px) clamp(18px, 6vw, 48px); /* Responsive padding */
+            border: 3px double var(--altin);
             border-radius: 20px;
-            background: rgba(255, 255, 255, 0.45); /* Ekru üzerinde hafif saydam cam efekti */
+            background: rgba(255, 255, 255, 0.45);
             backdrop-filter: blur(4px);
-            margin: 48px auto 32px auto; /* Üst marjı artırarak çerçeveyi aşağı indirdik */
-            text-align: center; /* Çerçeve içeriğini ortaladık */
+            margin: 48px auto 32px auto;
+            text-align: center;
             max-width: 90%;
             width: fit-content;
-            box-shadow: 
+            box-shadow:
                 0 16px 40px rgba(58, 107, 74, 0.04),
-                inset 0 0 24px rgba(201, 168, 76, 0.15); /* İçeriden altın ışıltı */
+                inset 0 0 24px rgba(201, 168, 76, 0.15);
             animation: fadeUp 0.8s ease 0.4s both;
         }
         .hero-names::before {
@@ -520,6 +575,12 @@
             border-radius: 24px;
             opacity: 0.65;
             pointer-events: none;
+        }
+        /* Harf animasyonu için span sarmalayıcı */
+        .name-groom .letter, .name-bride .letter {
+            display: inline-block;
+            opacity: 0;
+            animation: letterReveal 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
         }
         .name-groom, .name-bride {
             font-family: 'Great Vibes', cursive;
@@ -556,20 +617,25 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             color: var(--metin-ac);
             font-size: 11px;
             letter-spacing: 2px;
             text-transform: uppercase;
             animation: fadeIn 1.5s ease 1.5s both;
             z-index: 1;
+            cursor: default;
         }
+        /* Aşağı zıplayan ok */
         .scroll-hint::after {
             content: '';
-            width: 1px;
-            height: 40px;
-            background: linear-gradient(to bottom, var(--altin), transparent);
-            animation: floatLeaf 2s ease-in-out infinite;
+            display: block;
+            width: 10px; height: 10px;
+            border-right: 1.5px solid var(--altin);
+            border-bottom: 1.5px solid var(--altin);
+            transform: rotate(45deg);
+            animation: bounceDown 1.4s ease-in-out infinite;
+            margin-top: 4px;
         }
 
         /* ===== BİRLEŞİK İÇERİK BÖLÜMÜ ===== */
@@ -820,14 +886,32 @@
         /* ===== FOOTER ===== */
         .wedding-footer {
             background: var(--metin);
-            padding: 40px 24px;
+            padding: 48px 24px;
             text-align: center;
+        }
+        /* Altın dekor çizgisi */
+        .footer-ornament {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .footer-ornament-line {
+            height: 1px;
+            width: 80px;
+            background: linear-gradient(to right, transparent, rgba(201,168,76,0.7), transparent);
+            animation: footerLineShimmer 3s ease-in-out infinite;
+        }
+        .footer-ornament-icon {
+            font-size: 16px;
+            color: rgba(201,168,76,0.7);
         }
         .wedding-footer .footer-names {
             font-family: 'Great Vibes', cursive;
-            font-size: 44px;
+            font-size: 48px;
             color: var(--altin);
-            margin-bottom: 12px;
+            margin-bottom: 8px;
         }
         .wedding-footer p {
             font-size: 13px;
@@ -835,6 +919,11 @@
             font-family: 'Cormorant Garamond', serif;
             font-style: italic;
             letter-spacing: 1px;
+        }
+        /* Footer küçük altın SVG dal */
+        .footer-branch {
+            opacity: 0.18;
+            margin-bottom: 20px;
         }
 
         /* ===== RIBBON ===== */
@@ -1039,7 +1128,8 @@
             <circle cx="10" cy="10" r="4" fill="#c9a84c"/>
         </svg>
 
-        <p class="hero-pre">Sizi mutlu günümüzde aramızda görmekten onur duyarız</p>
+        <!-- Tarih ve saat özeti (hero üst bilgi) -->
+        <p class="hero-pre" id="heroDateLine">18 Temmuz 2026 &nbsp;·&nbsp; 19:00 &nbsp;·&nbsp; İstanbul</p>
 
         <div class="hero-names">
             <span class="name-groom" id="nameGroom">Beyza</span>
@@ -1204,7 +1294,20 @@
 
     <!-- ===== FOOTER ===== -->
     <footer class="wedding-footer">
-        <p class="footer-names" id="footerNames">Emir & Beyza</p>
+        <!-- Dekoratif altın SVG dal süsü -->
+        <svg class="footer-branch" viewBox="0 0 260 40" width="220" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M10 20 C50 5 100 35 130 20 C160 5 210 35 250 20" stroke="#c9a84c" stroke-width="1.2" fill="none"/>
+            <circle cx="60" cy="12" r="3" fill="rgba(201,168,76,0.6)"/>
+            <circle cx="130" cy="20" r="4" fill="rgba(201,168,76,0.8)"/>
+            <circle cx="200" cy="12" r="3" fill="rgba(201,168,76,0.6)"/>
+        </svg>
+        <!-- Altın dekor çizgisi -->
+        <div class="footer-ornament">
+            <div class="footer-ornament-line"></div>
+            <span class="footer-ornament-icon">✦</span>
+            <div class="footer-ornament-line"></div>
+        </div>
+        <p class="footer-names" id="footerNames">Beyza &amp; Emir</p>
         <p id="footerDate">18 Temmuz 2026 · İstanbul</p>
         <br>
         <p style="margin-top:16px; font-size:11px; opacity:0.3; letter-spacing:2px;">
@@ -1285,29 +1388,49 @@
         }
 
 
-        // ─── Yaprak animasyonu (en üstte görünür) ───
+        // ─── Yaprak animasyonu — Maksimum 15 eş zamanlı yaprak (DOM şişmesini önler) ───
         const petalsEl = document.getElementById('petals');
-        // Sadece yeşil yapraklar ve beyaz çiçekler
         const PETALS = ['🍃', '🌿', '🌱', '🍀', '🌼', '💮', '🍃', '🌿', '🌼'];
+        const MAX_PETALS = 15;
 
         function createPetal() {
+            // Maksimum sayıya ulaşıldıysa en eski yaprağı temizle
+            if (petalsEl.children.length >= MAX_PETALS) {
+                petalsEl.firstChild && petalsEl.removeChild(petalsEl.firstChild);
+            }
             const p = document.createElement('div');
             p.className = 'petal';
             p.textContent = PETALS[Math.floor(Math.random() * PETALS.length)];
-            p.style.left           = Math.random() * 105 + 'vw';
-            p.style.fontSize       = (12 + Math.random() * 18) + 'px';
-            const dur              = 7 + Math.random() * 9;
+            p.style.left              = Math.random() * 105 + 'vw';
+            p.style.fontSize          = (12 + Math.random() * 18) + 'px';
+            const dur                 = 7 + Math.random() * 9;
             p.style.animationDuration = dur + 's';
             p.style.animationDelay    = (Math.random() * 2) + 's';
-            p.style.opacity        = 0;
+            p.style.opacity           = 0;
             petalsEl.appendChild(p);
-            setTimeout(() => p.remove(), (dur + 3) * 1000);
+            setTimeout(() => { if (p.parentNode) p.remove(); }, (dur + 3) * 1000);
         }
 
-        for (let i = 0; i < 28; i++) {
-            setTimeout(createPetal, i * 120);
+        for (let i = 0; i < 12; i++) setTimeout(createPetal, i * 180);
+        setInterval(createPetal, 600);
+
+        // ─── Harf harf isim animasyonu ───
+        function animateNameLetters() {
+            ['nameGroom', 'nameBride'].forEach((id, nameIdx) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const text = el.textContent;
+                el.textContent = '';
+                [...text].forEach((char, i) => {
+                    const span = document.createElement('span');
+                    span.className = 'letter';
+                    span.textContent = char === ' ' ? '\u00A0' : char;
+                    // İkinci isim biraz daha gecikmeli başlar
+                    span.style.animationDelay = (0.4 + nameIdx * 0.6 + i * 0.07) + 's';
+                    el.appendChild(span);
+                });
+            });
         }
-        setInterval(createPetal, 400);
 
 
         // ─── Scroll Reveal ───
@@ -1325,8 +1448,18 @@
 
         // ─── Başlat ───
         applyConfig();
+        animateNameLetters(); // Harf animasyonunu config uygulandıktan hemen sonra çalıştır
         updateCountdown();
-        setInterval(updateCountdown, 1000);
+        // Sayfa görünür olduğunda interval'i başlat, gizlenince durdur (pil tasarrufu)
+        let countdownInterval = setInterval(updateCountdown, 1000);
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                clearInterval(countdownInterval);
+            } else {
+                updateCountdown();
+                countdownInterval = setInterval(updateCountdown, 1000);
+            }
+        });
 
 
         // ================================================================
