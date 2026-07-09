@@ -124,9 +124,9 @@
             align-items: center;
             justify-content: center;
             background: linear-gradient(rgba(0,0,0,0.35), rgba(0,0,0,0.35)),
-                        url('./assets/envelope-screen-bg.webp') no-repeat center/cover,
-                        url('./assets/envelope-screen-bg.png') no-repeat center/cover,
-                        url('./assets/envelope-screen-bg.jpg') no-repeat center/cover,
+                        url('assets/envelope-screen-bg.webp?v=1.2') no-repeat center/cover,
+                        url('assets/envelope-screen-bg.png?v=1.2') no-repeat center/cover,
+                        url('assets/envelope-screen-bg.jpg?v=1.2') no-repeat center/cover,
                         radial-gradient(ellipse at center, #1a3a28 0%, #0d2118 60%, #060f0c 100%);
             transition: opacity 1s ease, visibility 1s ease;
         }
@@ -160,9 +160,9 @@
         .env-back {
             position: absolute;
             inset: 0;
-            background: url('./assets/envelope-bg.webp') no-repeat center/cover,
-                        url('./assets/envelope-bg.png') no-repeat center/cover, 
-                        url('./assets/envelope-bg.jpg') no-repeat center/cover,
+            background: url('assets/envelope-bg.webp?v=1.2') no-repeat center/cover,
+                        url('assets/envelope-bg.png?v=1.2') no-repeat center/cover, 
+                        url('assets/envelope-bg.jpg?v=1.2') no-repeat center/cover,
                         linear-gradient(160deg, #1b4d32 0%, #0f3020 60%, #0a2018 100%);
             border-radius: 6px;
             box-shadow:
@@ -177,9 +177,9 @@
         .env-front {
             position: absolute;
             inset: 0;
-            background: url('./assets/envelope-bg.webp') no-repeat center/cover,
-                        url('./assets/envelope-bg.png') no-repeat center/cover, 
-                        url('./assets/envelope-bg.jpg') no-repeat center/cover,
+            background: url('assets/envelope-bg.webp?v=1.2') no-repeat center/cover,
+                        url('assets/envelope-bg.png?v=1.2') no-repeat center/cover, 
+                        url('assets/envelope-bg.jpg?v=1.2') no-repeat center/cover,
                         linear-gradient(160deg, #16402a 0%, #0d2a1c 100%);
             clip-path: polygon(0 35%, 50% 60%, 100% 35%, 100% 100%, 0 100%);
             filter: brightness(0.88) contrast(1.05); /* Derinlik hissi için hafif gölge */
@@ -260,9 +260,9 @@
         .env-flap-face {
             position: absolute;
             inset: 0;
-            background: url('./assets/envelope-flap-bg.webp') no-repeat center/cover,
-                        url('./assets/envelope-flap-bg.png') no-repeat center/cover,
-                        url('./assets/envelope-flap-bg.jpg') no-repeat center/cover,
+            background: url('assets/envelope-flap-bg.webp?v=1.2') no-repeat center/cover,
+                        url('assets/envelope-flap-bg.png?v=1.2') no-repeat center/cover,
+                        url('assets/envelope-flap-bg.jpg?v=1.2') no-repeat center/cover,
                         linear-gradient(180deg, #1e5538 0%, #154030 50%, #0f2e22 100%);
             clip-path: polygon(0 0, 100% 0, 50% 100%);
             backface-visibility: hidden;
@@ -319,7 +319,7 @@
         }
         /* Mühür Resmi Yüklendiğinde Arka Planı Temizle */
         .seal-circle.has-custom-seal {
-            background: url('./assets/wax-seal.webp') no-repeat center/contain !important;
+            background: url('assets/wax-seal.webp?v=1.2') no-repeat center/contain !important;
             box-shadow: 0 8px 24px rgba(0,0,0,0.5) !important;
         }
         .seal-circle.has-custom-seal::before {
@@ -352,9 +352,9 @@
             position: absolute;
             bottom: 6px; left: 14px; right: 14px;
             height: 86%;
-            background: url('./assets/letter-bg.webp') no-repeat center/cover,
-                        url('./assets/letter-bg.png') no-repeat center/cover,
-                        url('./assets/letter-bg.jpg') no-repeat center/cover,
+            background: url('assets/letter-bg.webp?v=1.2') no-repeat center/cover,
+                        url('assets/letter-bg.png?v=1.2') no-repeat center/cover,
+                        url('assets/letter-bg.jpg?v=1.2') no-repeat center/cover,
                         linear-gradient(180deg, #f9f5ee 0%, #f0ead8 100%);
             border-radius: 3px 3px 0 0;
             transform: translateY(20px); /* Zarfın içinde hafif aşağıda başlar */
@@ -1028,7 +1028,7 @@
             <!-- 💍 Yüzükler Alanı -->
             <div class="rings-wrapper" style="margin-top: 18px; text-align: center; display: flex; justify-content: center;">
                 <!-- Eğer assets klasörüne wedding-rings.png veya wedding-rings.webp atarsanız, çizim yerine o gösterilir -->
-                <img id="customRings" src="./assets/wedding-rings.webp" alt="Yüzükler" style="display: none; max-width: 54px; height: auto;" onerror="this.src='./assets/wedding-rings.png'; this.onerror=null;" onload="document.getElementById('svgRings').style.display='none'; this.style.display='block';">
+                <img id="customRings" src="assets/wedding-rings.webp?v=1.2" alt="Yüzükler" style="display: none; max-width: 54px; height: auto;" onerror="this.src='assets/wedding-rings.png?v=1.2'; this.onerror=null;" onload="document.getElementById('svgRings').style.display='none'; this.style.display='block';">
                 
                 <!-- Kusursuz Vektörel Altın Yüzük Çizimi (Varsayılan) -->
                 <div id="svgRings" style="display: block;">
@@ -1201,10 +1201,10 @@
 
             // Söz tarihi — new Date(YIL, AY-1, GÜN, SAAT, DAKİKA)
             // Ay 1 eksik: Ocak=0 … Temmuz=6
-            weddingDate: new Date(2026, 6, 18, 18, 30),
+            weddingDate: new Date(2026, 6, 18, 19, 0),
 
             dateText:  "18 Temmuz 2026",
-            timeText:  "18:30",
+            timeText:  "19:00",
 
             venueName: "Beykoz Karali Çiftliği",
             city:      "İstanbul",
@@ -1398,7 +1398,7 @@
 
         // Eğer wax-seal.webp mühür resmi yüklendiyse, üstündeki B&E yazısını gizle
         const sealImageChecker = new Image();
-        sealImageChecker.src = './assets/wax-seal.webp';
+        sealImageChecker.src = 'assets/wax-seal.webp?v=1.2';
         sealImageChecker.onload = function() {
             const monogram = document.querySelector('.seal-monogram');
             if (monogram) monogram.style.display = 'none';
